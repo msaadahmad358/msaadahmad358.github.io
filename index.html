@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Muhammad Saad Ahmad</title>
 <style>
   :root {
@@ -17,51 +17,67 @@
     --frame: #eceae5;
     --shadow: none;
     --shadow-hover: none;
+    --content-max: 600px;   /* one shared width for tabs + panels */
+    --frame-pad: 4px;       /* padding inside media frames */
+    --frame-border: 1px;
+    --frame-extra: calc((var(--frame-pad) + var(--frame-border)) * 2); /* total = 10px */
     color-scheme: light;
   }
   * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   body {
-    min-height: 100vh; margin: 0; padding: 40px 16px 56px;
+    min-height: 100vh; min-height: 100dvh; margin: 0;
+    padding: 40px 16px 56px;
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    padding-bottom: max(56px, env(safe-area-inset-bottom));
     display: flex; flex-direction: column; align-items: center; text-align: center;
     background: var(--bg); color: var(--text);
     font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.5;
   }
   h1 {
-    margin: 0 0 20px; font-family: Georgia, "Times New Roman", serif;
-    font-weight: 600; font-size: clamp(22px, 4.5vw, 32px); letter-spacing: .08em;
+    margin: 0 0 20px; max-width: 100%;
+    padding-left: .08em;               /* cancels trailing letter-spacing so text is truly centered */
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 600; font-size: clamp(20px, 4.5vw, 32px); letter-spacing: .08em;
+    overflow-wrap: anywhere; text-wrap: balance;
   }
-  
+
   a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-  .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%; max-width: var(--content-max); }
   .box {
-    display: flex; align-items: center; gap: 8px; padding: 8px 16px;
-    color: var(--text); text-decoration: none; font-size: 15px;
+    display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 16px;
+    color: var(--text); text-decoration: none; font-size: 15px; line-height: 20px;
     background: var(--surface); border: 1px solid var(--line); border-radius: 2px;
     transition: border-color .15s, box-shadow .15s;
   }
   .box:hover { border-color: var(--accent); }
-  .box svg { width: 20px; height: 20px; fill: currentColor; }
+  .box svg { flex: none; width: 20px; height: 20px; fill: currentColor; }
 
-  .tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin-top: 40px; border-bottom: 1px solid var(--line); width: 100%; max-width: 600px; }
+  .tabs { display: flex; justify-content: center; gap: 0; margin-top: 40px; border-bottom: 1px solid var(--line); width: 100%; max-width: var(--content-max); }
   .tab {
+    flex: 1 1 0; min-width: 0;
     font: inherit; font-size: 15px; color: var(--muted); background: transparent; border: 0;
-    border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 10px 18px; cursor: pointer;
+    border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 10px 4px; cursor: pointer;
+    text-align: center; white-space: nowrap;
   }
   .tab:hover { color: var(--text); }
   .tab[aria-selected="true"] { color: var(--accent); font-weight: 600; border-bottom-color: var(--accent); }
 
   .view { display: flex; justify-content: center; gap: 6px; margin-top: 20px; }
-  .view button { background: var(--surface); color: var(--muted); border: 1px solid var(--line); border-radius: 2px; padding: 6px 8px; cursor: pointer; line-height: 0; }
+  .view button { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; padding: 0; background: var(--surface); color: var(--muted); border: 1px solid var(--line); border-radius: 2px; cursor: pointer; line-height: 0; }
   .view button[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
-  .view svg, .item svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .view svg, .item svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-  .panel { margin-top: 20px; width: 100%; max-width: 600px; padding: 0 4px; }
+  .panel { margin-top: 20px; width: 100%; max-width: var(--content-max); padding: 0; }
   .panel[hidden] { display: none; }
   .panel ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
-  .panel ul.list { grid-template-columns: 1fr; }
-  .panel ul.grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+  .panel ul.list { grid-template-columns: minmax(0, 1fr); }
+  .panel ul.grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 130px), 1fr)); }
+  .panel li { min-width: 0; display: flex; }
+  .panel li > * { flex: 1 1 auto; min-width: 0; }
 
   .item {
     display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text);
@@ -69,20 +85,25 @@
     border-radius: 2px; text-align: left;
   }
   .item svg { color: var(--accent); }
-  
 
   /* ----- project card ----- */
-  .app-card { align-items: stretch; gap: 16px; padding: 14px;  }
-  
+  .app-card { align-items: center; gap: 16px; padding: 14px; }
+
+  /* Frame: content-box so the aspect ratio applies to the picture area itself.
+     Outer width = var(--w) exactly (content width + padding + border). */
   .media {
-    flex: 0 0 var(--w, 72px); width: var(--w, 72px); aspect-ratio: var(--r, 9 / 16);
-    background: var(--frame); border: 1px solid var(--line); border-radius: 2px; padding: 4px;
+    box-sizing: content-box;
+    flex: 0 0 auto;
+    width: calc(var(--w, 72px) - var(--frame-extra));
+    aspect-ratio: var(--r, 9 / 16);
+    align-self: center;
+    background: var(--frame); border: var(--frame-border) solid var(--line); border-radius: 2px; padding: var(--frame-pad);
   }
   .media video, .media img { display: block; width: 100%; height: 100%; object-fit: contain; }
-  .info { display: flex; flex-direction: column; justify-content: center; gap: 8px; min-width: 0; flex: 1; }
-  .info h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 17px; font-weight: 600; line-height: 1.3; }
+  .info { display: flex; flex-direction: column; justify-content: center; gap: 8px; min-width: 0; flex: 1 1 0; }
+  .info h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 17px; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
   .notice { padding: 14px 16px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 14px; text-align: left; }
-  .desc { margin: 0; font-size: 14px; color: var(--muted); }
+  .desc { margin: 0; font-size: 14px; color: var(--muted); overflow-wrap: anywhere; }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .chips span { font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 2px; padding: 1px 8px; }
   .view-btn {
@@ -92,24 +113,46 @@
   }
   .view-btn:hover { opacity: .88; }
   ul.grid .app-card { flex-direction: column; text-align: center; align-items: center; }
-  ul.grid .media { width: 100%; flex-basis: auto; max-width: 160px; }
-  ul.grid .info { align-items: center; }
+  ul.grid .media { width: calc(min(100%, 160px) - var(--frame-extra)); flex: 0 0 auto; }
+  ul.grid .info { align-items: center; flex: 0 0 auto; width: 100%; }
   ul.grid .chips { display: none; }
   ul.grid .view-btn { align-self: center; }
 
   /* ----- modal ----- */
-  .overlay { position: fixed; inset: 0; background: rgba(10,14,20,.6); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 10; }
+  .overlay {
+    position: fixed; inset: 0; background: rgba(10,14,20,.6); display: flex; align-items: center; justify-content: center;
+    padding: 16px; padding-top: max(16px, env(safe-area-inset-top)); padding-bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 10;
+  }
   .overlay[hidden] { display: none; }
-  .modal { position: relative; background: var(--surface); color: var(--text); width: 100%; max-width: 640px; max-height: 92vh; overflow: auto; padding: 28px; text-align: left; border: 1px solid var(--line); border-radius: 2px; }
-  .modal .close { position: absolute; top: 12px; right: 12px; background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 2px; width: 32px; height: 32px; font-size: 20px; line-height: 1; cursor: pointer; }
+  .modal {
+    position: relative; background: var(--surface); color: var(--text); width: 100%; max-width: 640px;
+    max-height: 92vh; max-height: 92dvh; overflow: auto; overscroll-behavior: contain;
+    padding: clamp(16px, 5vw, 28px); text-align: left; border: 1px solid var(--line); border-radius: 2px;
+  }
+  .modal .close { position: absolute; top: 12px; right: 12px; display: flex; align-items: center; justify-content: center; background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 2px; width: 32px; height: 32px; padding: 0; font-size: 20px; line-height: 1; cursor: pointer; }
   .modal .close:hover { color: var(--text); border-color: var(--line-strong); }
-  .modal h2 { margin: 0 0 12px; padding-right: 40px; font-family: Georgia, "Times New Roman", serif; font-weight: 600; font-size: 22px; }
+  .modal h2 { margin: 0 0 12px; padding-right: 40px; font-family: Georgia, "Times New Roman", serif; font-weight: 600; font-size: 22px; line-height: 32px; overflow-wrap: anywhere; }
   .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .tags:empty { display: none; }
   .tags span { border: 1px solid var(--line); border-radius: 2px; padding: 1px 10px; font-size: 13px; color: var(--muted); }
   .avail { margin: 0 0 20px; color: var(--muted); font-size: 15px; }
-  .avail a { margin-left: 8px; color: var(--accent); }
-  .shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--min, 90px), 1fr)); gap: 10px; }
-  .shots img { width: 100%; aspect-ratio: var(--r, 9 / 16); object-fit: contain; background: var(--frame); padding: 4px; border: 1px solid var(--line); border-radius: 2px; }
+  .avail a { margin-left: .28em; color: var(--accent); }  /* ≈ one space, so gaps around "|" are equal */
+
+  /* Each cell is exactly one grid column wide: img (content-box) + 10px frame + 2×5px margin = 100% */
+  .shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--min, 90px), 1fr)); gap: 0; margin: -5px; }
+  .shots img {
+    box-sizing: content-box; display: block;
+    width: calc(100% - 20px); margin: 5px;
+    aspect-ratio: var(--r, 9 / 16); object-fit: contain;
+    background: var(--frame); padding: var(--frame-pad); border: var(--frame-border) solid var(--line); border-radius: 2px;
+  }
+
+  @media (max-width: 380px) {
+    body { padding-top: 28px; }
+    .box { padding: 8px 12px; }
+    .app-card { gap: 12px; padding: 12px; }
+  }
 </style>
 </head>
 <body>
@@ -127,6 +170,10 @@
     <a class="box" href="https://github.com/msaadahmad358" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
       See my code
+    </a>
+    <a class="box" href="https://www.fiverr.com/isaadrizvi/develop-islamic-mobile-app-ios-android" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18"/></svg>
+      Hire me on Fiverr
     </a>
   </div>
 
@@ -209,8 +256,8 @@
 
   /* ---------- Data: loaded from apps.json ---------- */
   const KINDS = {
-    app:  { ratio: '993 / 1920', cardW: '88px',  shotMin: '90px',  button: 'View app' },
-    site: { ratio: '16 / 9', cardW: '128px', shotMin: '200px', button: 'View website' }
+    app:  { ratio: '993 / 1920', cardW: 'min(88px, 24vw)',   shotMin: '90px',  button: 'View app' },
+    site: { ratio: '16 / 9',     cardW: 'min(128px, 32vw)',  shotMin: '200px', button: 'View website' }
   };
 
   const overlay = document.getElementById('overlay');

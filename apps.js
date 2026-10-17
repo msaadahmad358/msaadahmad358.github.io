@@ -27,5 +27,14 @@ window.APPS = [
     "playStore": null,
     "appStore": null,
     "tags": ["Holy Quran", "Prayer Times", "Islamic Duas", "Qibla Finder", "Digital Tasbih", "iOS", "Mobile App"]
+  },
+  {
+    "id": 4,
+    "name": "Allama Iqbal Offline Poetry with English Translation",
+    "description": "A modern poetry app with a clean interface, built with Flutter.",
+    "github": "https://github.com/msaadahmad358/AllamaIqbalOfflinePoetry-MobileApp",
+    "playStore": null,
+    "appStore": null,
+    "tags": ["Allama Iqbal", "Poetry", "Mobile App", "Flutter", "iOS", "Mobile App"]
   }
 ];
