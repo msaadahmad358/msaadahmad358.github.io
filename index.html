@@ -1,23 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Muhammad Saad Ahmad</title>
 <style>
-  .links { display: flex; flex-wrap: wrap; gap: 12px; }
-  .box {
-    display: flex; align-items: center; gap: 8px;
-    padding: 8px 14px;
-    color: inherit; text-decoration: none;
-    background: transparent;
-    border: 1px solid currentColor;
+  :root {
+    --bg: #f6f5f2;
+    --surface: #ffffff;
+    --text: #1d232b;
+    --muted: #5d6673;
+    --line: #d8d6d0;
+    --line-strong: #b9b6ae;
+    --accent: #1f3a5f;
+    --accent-text: #ffffff;
+    --frame: #eceae5;
+    --shadow: none;
+    --shadow-hover: none;
+    color-scheme: light;
   }
-  .box svg { width: 22px; height: 22px; fill: currentColor; }
+  * { box-sizing: border-box; }
+  body {
+    min-height: 100vh; margin: 0; padding: 40px 16px 56px;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    background: var(--bg); color: var(--text);
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
+  h1 {
+    margin: 0 0 20px; font-family: Georgia, "Times New Roman", serif;
+    font-weight: 600; font-size: clamp(22px, 4.5vw, 32px); letter-spacing: .08em;
+  }
+  
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .box {
+    display: flex; align-items: center; gap: 8px; padding: 8px 16px;
+    color: var(--text); text-decoration: none; font-size: 15px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 2px;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .box:hover { border-color: var(--accent); }
+  .box svg { width: 20px; height: 20px; fill: currentColor; }
+
+  .tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin-top: 40px; border-bottom: 1px solid var(--line); width: 100%; max-width: 600px; }
+  .tab {
+    font: inherit; font-size: 15px; color: var(--muted); background: transparent; border: 0;
+    border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 10px 18px; cursor: pointer;
+  }
+  .tab:hover { color: var(--text); }
+  .tab[aria-selected="true"] { color: var(--accent); font-weight: 600; border-bottom-color: var(--accent); }
+
+  .view { display: flex; justify-content: center; gap: 6px; margin-top: 20px; }
+  .view button { background: var(--surface); color: var(--muted); border: 1px solid var(--line); border-radius: 2px; padding: 6px 8px; cursor: pointer; line-height: 0; }
+  .view button[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
+  .view svg, .item svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  .panel { margin-top: 20px; width: 100%; max-width: 600px; padding: 0 4px; }
+  .panel[hidden] { display: none; }
+  .panel ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  .panel ul.list { grid-template-columns: 1fr; }
+  .panel ul.grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+
+  .item {
+    display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text);
+    text-decoration: none; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 2px; text-align: left;
+  }
+  .item svg { color: var(--accent); }
+  
+
+  /* ----- project card ----- */
+  .app-card { align-items: stretch; gap: 16px; padding: 14px;  }
+  
+  .media {
+    flex: 0 0 var(--w, 72px); width: var(--w, 72px); aspect-ratio: var(--r, 9 / 16);
+    background: var(--frame); border: 1px solid var(--line); border-radius: 2px; padding: 4px;
+  }
+  .media video, .media img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .info { display: flex; flex-direction: column; justify-content: center; gap: 8px; min-width: 0; flex: 1; }
+  .info h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 17px; font-weight: 600; line-height: 1.3; }
+  .notice { padding: 14px 16px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 14px; text-align: left; }
+  .desc { margin: 0; font-size: 14px; color: var(--muted); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips span { font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 2px; padding: 1px 8px; }
+  .view-btn {
+    align-self: flex-start; margin-top: 2px; background: var(--accent); color: var(--accent-text);
+    border: 1px solid var(--accent); border-radius: 2px; padding: 7px 16px; font: inherit; font-size: 14px;
+    font-weight: 600; cursor: pointer; transition: opacity .15s;
+  }
+  .view-btn:hover { opacity: .88; }
+  ul.grid .app-card { flex-direction: column; text-align: center; align-items: center; }
+  ul.grid .media { width: 100%; flex-basis: auto; max-width: 160px; }
+  ul.grid .info { align-items: center; }
+  ul.grid .chips { display: none; }
+  ul.grid .view-btn { align-self: center; }
+
+  /* ----- modal ----- */
+  .overlay { position: fixed; inset: 0; background: rgba(10,14,20,.6); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 10; }
+  .overlay[hidden] { display: none; }
+  .modal { position: relative; background: var(--surface); color: var(--text); width: 100%; max-width: 640px; max-height: 92vh; overflow: auto; padding: 28px; text-align: left; border: 1px solid var(--line); border-radius: 2px; }
+  .modal .close { position: absolute; top: 12px; right: 12px; background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 2px; width: 32px; height: 32px; font-size: 20px; line-height: 1; cursor: pointer; }
+  .modal .close:hover { color: var(--text); border-color: var(--line-strong); }
+  .modal h2 { margin: 0 0 12px; padding-right: 40px; font-family: Georgia, "Times New Roman", serif; font-weight: 600; font-size: 22px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .tags span { border: 1px solid var(--line); border-radius: 2px; padding: 1px 10px; font-size: 13px; color: var(--muted); }
+  .avail { margin: 0 0 20px; color: var(--muted); font-size: 15px; }
+  .avail a { margin-left: 8px; color: var(--accent); }
+  .shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--min, 90px), 1fr)); gap: 10px; }
+  .shots img { width: 100%; aspect-ratio: var(--r, 9 / 16); object-fit: contain; background: var(--frame); padding: 4px; border: 1px solid var(--line); border-radius: 2px; }
 </style>
 </head>
 <body>
-  <h1>Portfolio website</h1>
+  <h1>MUHAMMAD SAAD AHMAD</h1>
 
   <div class="links">
     <a class="box" href="https://wa.me/923246683433" target="_blank" rel="noopener">
@@ -33,5 +129,227 @@
       See my code
     </a>
   </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-target="apps">Mobile Apps</button>
+    <button class="tab" role="tab" aria-selected="false" data-target="websites">Websites</button>
+    <button class="tab" role="tab" aria-selected="false" data-target="resources">Resources</button>
+  </div>
+
+  <div class="view" role="group" aria-label="View">
+    <button data-view="grid" aria-pressed="false" aria-label="Grid view" title="Grid"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></button>
+    <button data-view="list" aria-pressed="true" aria-label="List view" title="List"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></button>
+  </div>
+
+  <section class="panel" id="apps" role="tabpanel">
+    <ul class="list" id="app-list"></ul>
+  </section>
+  <section class="panel" id="websites" role="tabpanel" hidden>
+    <ul class="list" id="site-list"></ul>
+  </section>
+  <section class="panel" id="resources" role="tabpanel" hidden>
+    <ul class="list">
+      <li><a class="item" href="#"><svg viewBox="0 0 24 24"><path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4zM20 4h-6M20 4v14h-6"/></svg><span>Resource name 1</span></a></li>
+      <li><a class="item" href="#"><svg viewBox="0 0 24 24"><path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4zM20 4h-6M20 4v14h-6"/></svg><span>Resource name 2</span></a></li>
+    </ul>
+  </section>
+
+
+  <div class="overlay" id="overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
+      <button class="close" id="m-close" aria-label="Close">&times;</button>
+      <h2 id="m-title"></h2>
+      <div class="tags" id="m-tags"></div>
+      <p class="avail" id="m-avail"></p>
+      <div class="shots" id="m-shots"></div>
+    </div>
+  </div>
+
+  <script src="apps.js"></script>
+  <script>
+  /* ---------- Tabs ---------- */
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+  tabs.forEach(tab => tab.addEventListener('click', () => {
+    tabs.forEach(t => t.setAttribute('aria-selected', t === tab));
+    panels.forEach(p => p.hidden = p.id !== tab.dataset.target);
+  }));
+
+  /* ---------- View toggle ---------- */
+  const viewBtns = document.querySelectorAll('.view button');
+  viewBtns.forEach(btn => btn.addEventListener('click', () => {
+    viewBtns.forEach(b => b.setAttribute('aria-pressed', b === btn));
+    document.querySelectorAll('.panel ul').forEach(ul => ul.className = btn.dataset.view);
+  }));
+
+  /* ---------- Helpers ---------- */
+  const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);
+  const enc = p => p.split('/').map(encodeURIComponent).join('/');
+
+  // Image detection: assets/<id>/images/1.<ext>, 2.<ext> ... (png, jpg, jpeg, webp), contiguous numbering
+  const IMG_EXTS = ['png', 'jpg', 'jpeg', 'webp'];
+  const probeImg = url => new Promise(res => {
+    const img = new Image();
+    img.onload = () => res(true);
+    img.onerror = () => res(false);
+    img.src = url;
+  });
+  async function findImage(base, i) {
+    const hits = await Promise.all(IMG_EXTS.map(ext => probeImg(enc(base + i + '.' + ext))));
+    const k = hits.indexOf(true);
+    return k < 0 ? null : base + i + '.' + IMG_EXTS[k];
+  }
+  async function loadScreenshots(folder, max = 30) {
+    const base = 'assets/' + folder + '/images/';
+    const all = await Promise.all(Array.from({ length: max }, (_, k) => findImage(base, k + 1)));
+    const found = [];
+    for (const p of all) { if (!p) break; found.push(p); }
+    return found;
+  }
+
+  /* ---------- Data: loaded from apps.json ---------- */
+  const KINDS = {
+    app:  { ratio: '993 / 1920', cardW: '88px',  shotMin: '90px',  button: 'View app' },
+    site: { ratio: '16 / 9', cardW: '128px', shotMin: '200px', button: 'View website' }
+  };
+
+  const overlay = document.getElementById('overlay');
+
+  /* ---------- Always-playing video ---------- */
+  const videos = new Set();
+
+  function keepPlaying(v) {
+    videos.add(v);
+    const play = () => { if (v.isConnected && v.paused && !v.ended) v.play().catch(() => {}); };
+    v.addEventListener('pause', () => { if (!document.hidden) setTimeout(play, 100); }); // resume if something paused it
+    v.addEventListener('stalled', play);
+    v.addEventListener('suspend', play);
+    v.addEventListener('canplay', play, { once: true });
+    play();
+  }
+  const resumeAll = () => videos.forEach(v => { if (v.paused) v.play().catch(() => {}); });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) resumeAll(); });
+  window.addEventListener('pageshow', resumeAll);
+  window.addEventListener('focus', resumeAll);
+  // Browsers that block autoplay (e.g. low-power mode) allow it after the first touch/click
+  ['pointerdown', 'touchstart', 'keydown', 'scroll'].forEach(ev =>
+    document.addEventListener(ev, resumeAll, { once: true, passive: true }));
+
+  function makeVideo(item) {
+    const video = el('video', {
+      loop: true, autoplay: true, muted: true, defaultMuted: true, playsInline: true,
+      preload: 'auto', disablePictureInPicture: true
+    });
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+    video.setAttribute('aria-hidden', 'true');
+    video.tabIndex = -1;
+    if (item.poster) video.poster = enc(item.poster);   // shows instantly while video loads
+    const base = item.videoBase;                         // assets/<id>/video/video
+    const types = [['mp4', 'video/mp4'], ['webm', 'video/webm']];
+    types.forEach(([ext, type]) => video.append(el('source', { src: enc(base + '.' + ext), type })));
+    // If no video file loads, fall back to the first screenshot
+    video.lastElementChild.addEventListener('error', () => {
+      videos.delete(video);
+      if (item.poster) video.replaceWith(el('img', { src: enc(item.poster), alt: '', decoding: 'async' }));
+    }, { once: true });
+    keepPlaying(video);
+    return video;
+  }
+
+  /* ---------- Render ---------- */
+  function renderCard(listId, item, kind) {
+    const k = KINDS[kind];
+    const li = el('li');
+    const card = el('div', { className: 'item app-card' });
+    card.style.setProperty('--r', k.ratio);
+    card.style.setProperty('--w', k.cardW);
+
+    const media = el('div', { className: 'media' });
+    media.append(makeVideo(item));
+
+    const info = el('div', { className: 'info' });
+    const title = el('h3', { textContent: item.name });
+    const desc = item.description ? el('p', { className: 'desc', textContent: item.description }) : null;
+    const chips = el('div', { className: 'chips' });
+    chips.append(...item.tags.map(t => el('span', { textContent: t })));
+    const btn = el('button', { className: 'view-btn', type: 'button', textContent: k.button });
+    btn.addEventListener('click', () => openItem(item, k));
+    info.append(...[title, desc, chips, btn].filter(Boolean));
+
+    card.append(media, info);
+    li.append(card);
+    document.getElementById(listId).append(li);
+  }
+
+  // Render each card immediately using the known first screenshot; load the rest lazily
+  async function loadApps() {
+    let apps = [];
+    try {
+      let data = window.APPS;                       // from apps.js (works when opened as a file)
+      if (!data) {                                  // otherwise try apps.json (needs a server)
+        const res = await fetch('apps.json', { cache: 'no-cache' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        data = await res.json();
+      }
+      apps = Array.isArray(data) ? data : (data.apps || [data]);
+    } catch (e) {
+      console.error('Could not load apps data', e);
+      document.getElementById('app-list').append(el('li', { className: 'notice',
+        textContent: 'Could not load apps data. Make sure apps.js is next to index.html.' }));
+      return;
+    }
+    for (const a of apps) {
+      const folder = String(a.id);                 // media lives in assets/<id>/
+      const base = 'assets/' + folder;
+      const links = [['GitHub', a.github], ['Play Store', a.playStore], ['App Store', a.appStore]]
+        .filter(([, url]) => url);
+      const poster = await findImage(base + '/images/', 1);
+      renderCard('app-list', {
+        folder, name: a.name, description: a.description,
+        tags: a.tags || [], links,
+        videoBase: base + '/video/video',
+        poster: poster || '',
+        screenshots: null
+      }, 'app');
+    }
+  }
+  loadApps();
+
+  // Re-kick videos when switching tabs / layouts (hidden panels can pause media)
+  document.querySelectorAll('.tab, .view button').forEach(b => b.addEventListener('click', () => setTimeout(resumeAll, 50)));
+
+  /* ---------- Modal ---------- */
+  async function openItem(item, k) {
+    document.getElementById('m-title').textContent = item.name;
+    document.getElementById('m-tags').replaceChildren(
+      ...item.tags.map(t => el('span', { textContent: t }))
+    );
+
+    const avail = document.getElementById('m-avail');
+    avail.hidden = !item.links.length;
+    avail.replaceChildren(document.createTextNode('Available on:'));
+    item.links.forEach(([label, url], i) => {
+      if (i > 0) avail.append(document.createTextNode(' |'));
+      avail.append(el('a', { href: url, textContent: label, target: '_blank', rel: 'noopener' }));
+    });
+
+    const shots = document.getElementById('m-shots');
+    shots.style.setProperty('--r', k.ratio);
+    shots.style.setProperty('--min', k.shotMin);
+    overlay.hidden = false;
+
+    if (!item.screenshots) item.screenshots = await loadScreenshots(item.folder);
+    shots.replaceChildren(...item.screenshots.map((src, i) =>
+      el('img', { src: enc(src), alt: item.name + ' screenshot ' + (i + 1), loading: 'lazy', decoding: 'async' })
+    ));
+  }
+
+  const closeApp = () => { overlay.hidden = true; resumeAll(); };
+  document.getElementById('m-close').addEventListener('click', closeApp);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeApp(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeApp(); });
+</script>
 </body>
 </html>
