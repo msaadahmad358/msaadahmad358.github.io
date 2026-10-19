@@ -15,8 +15,8 @@ window.APPS = [
     "name": "Holy Quran Pdf Mobile App",
     "description": "A modern Quran reading app with a clean interface, built with Flutter.",
     "github": "https://github.com/msaadahmad358/The-Quran-modern-mobile-application",
-    "playStore": null,
-    "appStore": null,
+    "playStore": "https://play.google.com/store/apps/details?id=com.irfanulquran.quranpdf",
+    "appStore": "https://apps.apple.com/sa/app/irfan-ul-quran-sunder-shareef/id6760271520",
     "tags": ["Holy Quran", "Quran Pdf", "API", "Android", "iOS", "Mobile App"]
   },
   {
@@ -36,5 +36,14 @@ window.APPS = [
     "playStore": null,
     "appStore": null,
     "tags": ["Allama Iqbal", "Poetry", "Mobile App", "Flutter", "iOS", "Mobile App"]
+  },
+  {
+    "id": 5,
+    "name": "Islamic Donation Mobile App - Quran, Hadith, Prayer Times",
+    "description": "A moderndonation mobile app with a clean interface, built with Flutter.",
+    "github": null,
+    "playStore": "https://play.google.com/store/apps/details?id=com.mnibolton.mni",
+    "appStore": "https://apps.apple.com/mx/app/mni-bolton/id6778692289",
+    "tags": ["Holy Quran", "Hadith Books", "Prayer Times", "Donation", "iOS", "Mobile App"]
   }
 ];

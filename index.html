@@ -118,6 +118,20 @@
   ul.grid .chips { display: none; }
   ul.grid .view-btn { align-self: center; }
 
+
+  /* ----- resource card ----- */
+  .res-card { align-items: center; gap: 14px; padding: 14px; }
+  .res-icon { flex: none; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: var(--frame); border: 1px solid var(--line); border-radius: 2px; }
+  .res-icon svg { width: 24px; height: 24px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
+  .btns .view-btn { margin-top: 0; align-self: auto; text-decoration: none; display: inline-block; line-height: 1.5; }
+  .view-btn.alt { background: transparent; color: var(--accent); }
+  .res-card audio { width: 100%; max-width: 100%; height: 36px; }
+  ul.grid .res-card { flex-direction: column; text-align: center; }
+  ul.grid .res-card .info { align-items: center; flex: 0 0 auto; width: 100%; }
+  ul.grid .res-card .chips { display: none; }
+  ul.grid .res-card .btns { justify-content: center; }
+
   /* ----- modal ----- */
   .overlay {
     position: fixed; inset: 0; background: rgba(10,14,20,.6); display: flex; align-items: center; justify-content: center;
@@ -141,6 +155,7 @@
 
   /* Each cell is exactly one grid column wide: img (content-box) + 10px frame + 2×5px margin = 100% */
   .shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--min, 90px), 1fr)); gap: 0; margin: -5px; }
+  .shots[data-full="1"] img { cursor: pointer; }
   .shots img {
     box-sizing: content-box; display: block;
     width: calc(100% - 20px); margin: 5px;
@@ -195,10 +210,7 @@
     <ul class="list" id="site-list"></ul>
   </section>
   <section class="panel" id="resources" role="tabpanel" hidden>
-    <ul class="list">
-      <li><a class="item" href="#"><svg viewBox="0 0 24 24"><path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4zM20 4h-6M20 4v14h-6"/></svg><span>Resource name 1</span></a></li>
-      <li><a class="item" href="#"><svg viewBox="0 0 24 24"><path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4zM20 4h-6M20 4v14h-6"/></svg><span>Resource name 2</span></a></li>
-    </ul>
+    <ul class="list" id="res-list"></ul>
   </section>
 
 
@@ -213,6 +225,7 @@
   </div>
 
   <script src="apps.js"></script>
+  <script src="resources.js"></script>
   <script>
   /* ---------- Tabs ---------- */
   const tabs = document.querySelectorAll('.tab');
@@ -246,11 +259,15 @@
     const k = hits.indexOf(true);
     return k < 0 ? null : base + i + '.' + IMG_EXTS[k];
   }
-  async function loadScreenshots(folder, max = 30) {
+  async function loadScreenshots(folder, max = 30, count = 0, ext = '') {
     const base = 'assets/' + folder + '/images/';
-    const all = await Promise.all(Array.from({ length: max }, (_, k) => findImage(base, k + 1)));
+    if (count && ext) return Array.from({ length: count }, (_, k) => base + (k + 1) + '.' + ext); // no probing
     const found = [];
-    for (const p of all) { if (!p) break; found.push(p); }
+    for (let i = 1; i <= max; i++) {                 // stop at the first missing number
+      const p = await findImage(base, i);
+      if (!p) break;
+      found.push(p);
+    }
     return found;
   }
 
@@ -285,7 +302,7 @@
   function makeVideo(item) {
     const video = el('video', {
       loop: true, autoplay: true, muted: true, defaultMuted: true, playsInline: true,
-      preload: 'auto', disablePictureInPicture: true
+      preload: 'none', disablePictureInPicture: true
     });
     video.setAttribute('muted', '');
     video.setAttribute('playsinline', '');
@@ -294,14 +311,24 @@
     video.tabIndex = -1;
     if (item.poster) video.poster = enc(item.poster);   // shows instantly while video loads
     const base = item.videoBase;                         // assets/<id>/video/video
-    const types = [['mp4', 'video/mp4'], ['webm', 'video/webm']];
-    types.forEach(([ext, type]) => video.append(el('source', { src: enc(base + '.' + ext), type })));
-    // If no video file loads, fall back to the first screenshot
-    video.lastElementChild.addEventListener('error', () => {
-      videos.delete(video);
-      if (item.poster) video.replaceWith(el('img', { src: enc(item.poster), alt: '', decoding: 'async' }));
-    }, { once: true });
-    keepPlaying(video);
+    const attach = () => {
+      [['mp4', 'video/mp4'], ['webm', 'video/webm']].forEach(([ext, type]) =>
+        video.append(el('source', { src: enc(base + '.' + ext), type })));
+      // If no video file loads, fall back to the first screenshot
+      video.lastElementChild.addEventListener('error', () => {
+        videos.delete(video);
+        if (item.poster) video.replaceWith(el('img', { src: enc(item.poster), alt: '', decoding: 'async' }));
+      }, { once: true });
+      video.load();
+      keepPlaying(video);
+    };
+    // Only download a video when its card is about to scroll into view
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some(e => e.isIntersecting)) { io.disconnect(); attach(); }
+      }, { rootMargin: '300px' });
+      io.observe(video);
+    } else attach();
     return video;
   }
 
@@ -314,7 +341,8 @@
     card.style.setProperty('--w', k.cardW);
 
     const media = el('div', { className: 'media' });
-    media.append(makeVideo(item));
+    item.video = makeVideo(item);
+    media.append(item.video);
 
     const info = el('div', { className: 'info' });
     const title = el('h3', { textContent: item.name });
@@ -352,20 +380,155 @@
       const base = 'assets/' + folder;
       const links = [['GitHub', a.github], ['Play Store', a.playStore], ['App Store', a.appStore]]
         .filter(([, url]) => url);
-      const poster = await findImage(base + '/images/', 1);
-      renderCard('app-list', {
+      const item = {
         folder, name: a.name, description: a.description,
         tags: a.tags || [], links,
         videoBase: base + '/video/video',
-        poster: poster || '',
+        poster: '', imageCount: a.imageCount || 0, imageExt: a.imageExt || '',
         screenshots: null
-      }, 'app');
+      };
+      renderCard('app-list', item, 'app');           // no await: every card shows at once
+      const setPoster = p => { item.poster = p || ''; if (p && item.video) item.video.poster = enc(p); };
+      if (a.imageExt) setPoster(base + '/images/1.' + a.imageExt);
+      else findImage(base + '/images/', 1).then(setPoster);
     }
   }
   loadApps();
 
   // Re-kick videos when switching tabs / layouts (hidden panels can pause media)
   document.querySelectorAll('.tab, .view button').forEach(b => b.addEventListener('click', () => setTimeout(resumeAll, 50)));
+
+
+  /* ---------- Resources ---------- */
+  const RES_FOLDERS = { json: 'json', audio: 'audio', image: 'images', pdf: 'pdfs' };  // kind -> assets/resources/<folder>
+  const RES_ICONS = {
+    json:  '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M8 13h8M8 17h8"/>',
+    pdf:   '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M8 13h8M8 17h5"/>',
+    audio: '<path d="M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM21 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>',
+    image: '<rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 16l5-5 5 5 3-3 5 5M9 8h.01"/>'
+  };
+  const svgIcon = kind => { const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    s.setAttribute('viewBox', '0 0 24 24'); s.innerHTML = RES_ICONS[kind] || RES_ICONS.json; return s; };
+
+
+  /* ---------- Image-set resources (kind: "gallery") ---------- */
+  const pad = (n, d) => String(n).padStart(d, '0');
+  const getSize = url => new Promise(res => {
+    const i = new Image();
+    i.onload = () => res([i.naturalWidth, i.naturalHeight]);
+    i.onerror = () => res(null);
+    i.src = url;
+  });
+  // Finds the last existing number in a contiguous sequence with ~2*log2(n) requests (604 pages -> ~20 probes)
+  async function countSeq(urlFor, cap = 5000) {
+    if (!(await probeImg(urlFor(1)))) return 0;
+    let lo = 1, hi = 2;
+    while (hi <= cap && await probeImg(urlFor(hi))) { lo = hi; hi *= 2; }
+    hi = Math.min(hi, cap + 1);
+    while (hi - lo > 1) {
+      const mid = (lo + hi) >> 1;
+      if (await probeImg(urlFor(mid))) lo = mid; else hi = mid;
+    }
+    return lo;
+  }
+
+  function renderGallery(r) {
+    const digits = r.digits || 3, ext = r.ext || 'png', prefix = r.prefix ?? 'page';
+    const dir = 'assets/resources/images/' + r.folder + '/';
+    const pageUrl = i => dir + prefix + pad(i, digits) + '.' + ext;
+    let count = r.pages || 0;
+
+    const li = el('li');
+    const card = el('div', { className: 'item res-card' });
+    const icon = el('div', { className: 'res-icon' }); icon.append(svgIcon('image'));
+    const info = el('div', { className: 'info' });
+    const desc = r.description ? el('p', { className: 'desc', textContent: r.description }) : null;
+    const size = r.size ? el('p', { className: 'desc', textContent: r.size }) : null;
+    const chips = el('div', { className: 'chips' });
+    chips.append(...(r.tags || []).map(t => el('span', { textContent: t })));
+    const btns = el('div', { className: 'btns' });
+    const btn = el('button', { className: 'view-btn', type: 'button', textContent: 'View pages' });
+    const ensureCount = async () => count || (count = await countSeq(i => enc(pageUrl(i))));
+    const saveBlob = (blob, name) => {
+      const a = el('a', { href: URL.createObjectURL(blob), download: name });
+      document.body.append(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+    };
+    const zipBtn = el('button', { className: 'view-btn alt', type: 'button', textContent: 'Download ZIP' });
+    zipBtn.addEventListener('click', async () => {
+      zipBtn.disabled = true; zipBtn.textContent = 'Preparing…';
+      try {
+        if (!(await ensureCount())) throw new Error('no pages');
+        if (r.zip) {                                   // ready-made zip supplied in the manifest
+          const a = el('a', { href: enc(dir + r.zip), download: r.zip });
+          document.body.append(a); a.click(); a.remove();
+        } else {
+          if (!window.JSZip) await new Promise((ok, fail) => document.head.append(el('script', {
+            src: 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js', onload: ok, onerror: fail })));
+          const zip = new JSZip(), folder = zip.folder(r.folder);
+          let next = 1, done = 0;
+          const worker = async () => {
+            while (next <= count) {
+              const i = next++;
+              const res = await fetch(enc(pageUrl(i)));
+              if (!res.ok) throw new Error('HTTP ' + res.status);
+              folder.file(prefix + pad(i, digits) + '.' + ext, await res.blob());
+              zipBtn.textContent = 'Zipping ' + (++done) + '/' + count;
+            }
+          };
+          await Promise.all(Array.from({ length: 6 }, worker));   // 6 downloads at a time
+          zipBtn.textContent = 'Building ZIP…';
+          saveBlob(await zip.generateAsync({ type: 'blob', compression: 'STORE' }), r.folder + '.zip');
+        }
+        zipBtn.textContent = 'Download ZIP';
+      } catch (e) {
+        console.error(e); zipBtn.textContent = 'Failed – retry';
+      }
+      zipBtn.disabled = false;
+    });
+    btn.addEventListener('click', async () => {
+      btn.disabled = true; btn.textContent = 'Loading…';
+      await ensureCount();
+      if (!count) { btn.textContent = 'Not found'; btn.disabled = false; return; }
+      const sz = await getSize(enc(pageUrl(1)));
+      openItem({
+        name: r.title + ' (' + count + ' pages)', tags: r.tags || [], links: [], full: true,
+        screenshots: Array.from({ length: count }, (_, i) => pageUrl(i + 1))
+      }, { ratio: sz ? sz[0] + ' / ' + sz[1] : '3 / 4', shotMin: '110px' });
+      btn.disabled = false; btn.textContent = 'View pages';
+    });
+    btns.append(btn, zipBtn);
+    info.append(...[el('h3', { textContent: r.title }), desc, size, chips, btns].filter(Boolean));
+    card.append(icon, info); li.append(card);
+    document.getElementById('res-list').append(li);
+  }
+
+  function renderResource(r) {
+    if (r.kind === 'gallery') return renderGallery(r);
+    const folder = RES_FOLDERS[r.kind] || r.kind;
+    const file = r.file || (r.id + '.' + (r.kind === 'image' ? 'webp' : r.kind === 'audio' ? 'mp3' : r.kind));
+    const url = enc('assets/resources/' + folder + '/' + file);
+
+    const li = el('li');
+    const card = el('div', { className: 'item res-card' });
+    const icon = el('div', { className: 'res-icon' }); icon.append(svgIcon(r.kind));
+
+    const info = el('div', { className: 'info' });
+    const desc = r.description ? el('p', { className: 'desc', textContent: r.description }) : null;
+    const size = r.size ? el('p', { className: 'desc', textContent: r.size }) : null;
+    const chips = el('div', { className: 'chips' });
+    chips.append(...(r.tags || []).map(t => el('span', { textContent: t })));
+
+    const btns = el('div', { className: 'btns' });
+    btns.append(el('a', { className: 'view-btn', href: url, download: file, textContent: 'Download' }));
+    if (r.kind !== 'audio') btns.append(el('a', { className: 'view-btn alt', href: url, target: '_blank', rel: 'noopener', textContent: 'Open' }));
+
+    const player = r.kind === 'audio' ? el('audio', { controls: true, preload: 'none', src: url }) : null;
+    info.append(...[el('h3', { textContent: r.title }), desc, size, chips, player, btns].filter(Boolean));
+    card.append(icon, info); li.append(card);
+    document.getElementById('res-list').append(li);
+  }
+  (window.RESOURCES || []).forEach(renderResource);
 
   /* ---------- Modal ---------- */
   async function openItem(item, k) {
@@ -383,16 +546,20 @@
     });
 
     const shots = document.getElementById('m-shots');
+    shots.dataset.full = item.full ? '1' : '';
     shots.style.setProperty('--r', k.ratio);
     shots.style.setProperty('--min', k.shotMin);
     overlay.hidden = false;
 
-    if (!item.screenshots) item.screenshots = await loadScreenshots(item.folder);
+    if (!item.screenshots) item.screenshots = await loadScreenshots(item.folder, 30, item.imageCount, item.imageExt);
     shots.replaceChildren(...item.screenshots.map((src, i) =>
       el('img', { src: enc(src), alt: item.name + ' screenshot ' + (i + 1), loading: 'lazy', decoding: 'async' })
     ));
   }
 
+  document.getElementById('m-shots').addEventListener('click', e => {
+    if (e.target.tagName === 'IMG' && e.currentTarget.dataset.full) window.open(e.target.src, '_blank', 'noopener');
+  });
   const closeApp = () => { overlay.hidden = true; resumeAll(); };
   document.getElementById('m-close').addEventListener('click', closeApp);
   overlay.addEventListener('click', e => { if (e.target === overlay) closeApp(); });
