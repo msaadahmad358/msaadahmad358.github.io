@@ -17,10 +17,10 @@
     --frame: #eceae5;
     --shadow: none;
     --shadow-hover: none;
-    --content-max: 600px;   /* one shared width for tabs + panels */
-    --frame-pad: 4px;       /* padding inside media frames */
+    --content-max: 600px;   
+    --frame-pad: 4px;       
     --frame-border: 1px;
-    --frame-extra: calc((var(--frame-pad) + var(--frame-border)) * 2); /* total = 10px */
+    --frame-extra: calc((var(--frame-pad) + var(--frame-border)) * 2); 
     color-scheme: light;
   }
   * { box-sizing: border-box; }
@@ -36,9 +36,21 @@
     font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.5;
   }
+  
+  /* NEW: Logo Styling */
+  .profile-logo {
+    height: 80px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    margin-bottom: 20px;
+    /* Optional: Subtle drop shadow to match the premium look */
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+  }
+
   h1 {
     margin: 0 0 20px; max-width: 100%;
-    padding-left: .08em;               /* cancels trailing letter-spacing so text is truly centered */
+    padding-left: .08em;               
     font-family: Georgia, "Times New Roman", serif;
     font-weight: 600; font-size: clamp(20px, 4.5vw, 32px); letter-spacing: .08em;
     overflow-wrap: anywhere; text-wrap: balance;
@@ -89,8 +101,6 @@
   /* ----- project card ----- */
   .app-card { align-items: center; gap: 16px; padding: 14px; }
 
-  /* Frame: content-box so the aspect ratio applies to the picture area itself.
-     Outer width = var(--w) exactly (content width + padding + border). */
   .media {
     box-sizing: content-box;
     flex: 0 0 auto;
@@ -98,8 +108,11 @@
     aspect-ratio: var(--r, 9 / 16);
     align-self: center;
     background: var(--frame); border: var(--frame-border) solid var(--line); border-radius: 2px; padding: var(--frame-pad);
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
   }
   .media video, .media img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .media.fallback { background: #eef1f5; color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 14px; letter-spacing: 0.05em; }
+  
   .info { display: flex; flex-direction: column; justify-content: center; gap: 8px; min-width: 0; flex: 1 1 0; }
   .info h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 17px; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
   .notice { padding: 14px 16px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 14px; text-align: left; }
@@ -151,9 +164,8 @@
   .tags:empty { display: none; }
   .tags span { border: 1px solid var(--line); border-radius: 2px; padding: 1px 10px; font-size: 13px; color: var(--muted); }
   .avail { margin: 0 0 20px; color: var(--muted); font-size: 15px; }
-  .avail a { margin-left: .28em; color: var(--accent); }  /* ≈ one space, so gaps around "|" are equal */
+  .avail a { margin-left: .28em; color: var(--accent); }
 
-  /* Each cell is exactly one grid column wide: img (content-box) + 10px frame + 2×5px margin = 100% */
   .shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--min, 90px), 1fr)); gap: 0; margin: -5px; }
   .shots[data-full="1"] img { cursor: pointer; }
   .shots img {
@@ -167,10 +179,15 @@
     body { padding-top: 28px; }
     .box { padding: 8px 12px; }
     .app-card { gap: 12px; padding: 12px; }
+    .profile-logo { height: 60px; }
   }
 </style>
 </head>
 <body>
+  
+  <!-- Logo added here -->
+  <img src="assets/logo.png" alt="Muhammad Saad Ahmad Logo" class="profile-logo">
+  
   <h1>MUHAMMAD SAAD AHMAD</h1>
 
   <div class="links">
@@ -224,8 +241,11 @@
     </div>
   </div>
 
+  <!-- Load Data Scripts -->
   <script src="apps.js"></script>
+  <script src="websites.js"></script>
   <script src="resources.js"></script>
+  
   <script>
   /* ---------- Tabs ---------- */
   const tabs = document.querySelectorAll('.tab');
@@ -246,32 +266,35 @@
   const el = (tag, props = {}) => Object.assign(document.createElement(tag), props);
   const enc = p => p.split('/').map(encodeURIComponent).join('/');
 
-  // Image detection: assets/<id>/images/1.<ext>, 2.<ext> ... (png, jpg, jpeg, webp), contiguous numbering
-  const IMG_EXTS = ['png', 'jpg', 'jpeg', 'webp'];
+  const IMG_EXT = 'png';
   const probeImg = url => new Promise(res => {
     const img = new Image();
     img.onload = () => res(true);
     img.onerror = () => res(false);
     img.src = url;
   });
-  async function findImage(base, i) {
-    const hits = await Promise.all(IMG_EXTS.map(ext => probeImg(enc(base + i + '.' + ext))));
-    const k = hits.indexOf(true);
-    return k < 0 ? null : base + i + '.' + IMG_EXTS[k];
-  }
-  async function loadScreenshots(folder, max = 30, count = 0, ext = '') {
-    const base = 'assets/' + folder + '/images/';
-    if (count && ext) return Array.from({ length: count }, (_, k) => base + (k + 1) + '.' + ext); // no probing
+  const exists = async url => {
+    try {
+      const r = await fetch(url, { method: 'HEAD' });
+      return r.ok;
+    } catch (e) {
+      return probeImg(url);
+    }
+  };
+  async function loadScreenshots(basePath, max = 30, count = 0) {
+    if (!basePath) return [];
+    const base = basePath + '/images/';
+    if (count) return Array.from({ length: count }, (_, k) => base + (k + 1) + '.' + IMG_EXT);
     const found = [];
-    for (let i = 1; i <= max; i++) {                 // stop at the first missing number
-      const p = await findImage(base, i);
-      if (!p) break;
+    for (let i = 1; i <= max; i++) {
+      const p = base + i + '.' + IMG_EXT;
+      if (!(await exists(enc(p)))) break;
       found.push(p);
     }
     return found;
   }
 
-  /* ---------- Data: loaded from apps.json ---------- */
+  /* ---------- Data: loaded from apps.js and websites.js ---------- */
   const KINDS = {
     app:  { ratio: '993 / 1920', cardW: 'min(88px, 24vw)',   shotMin: '90px',  button: 'View app' },
     site: { ratio: '16 / 9',     cardW: 'min(128px, 32vw)',  shotMin: '200px', button: 'View website' }
@@ -279,29 +302,37 @@
 
   const overlay = document.getElementById('overlay');
 
-  /* ---------- Always-playing video ---------- */
-  const videos = new Set();
+  /* ---------- Video/Media ---------- */
+  const visibleVideos = new Set();
+  const playVideo = v => { if (v.paused) v.play().catch(() => {}); };
 
-  function keepPlaying(v) {
-    videos.add(v);
-    const play = () => { if (v.isConnected && v.paused && !v.ended) v.play().catch(() => {}); };
-    v.addEventListener('pause', () => { if (!document.hidden) setTimeout(play, 100); }); // resume if something paused it
-    v.addEventListener('stalled', play);
-    v.addEventListener('suspend', play);
-    v.addEventListener('canplay', play, { once: true });
-    play();
-  }
-  const resumeAll = () => videos.forEach(v => { if (v.paused) v.play().catch(() => {}); });
-  document.addEventListener('visibilitychange', () => { if (!document.hidden) resumeAll(); });
-  window.addEventListener('pageshow', resumeAll);
-  window.addEventListener('focus', resumeAll);
-  // Browsers that block autoplay (e.g. low-power mode) allow it after the first touch/click
+  const videoIO = 'IntersectionObserver' in window
+    ? new IntersectionObserver(entries => {
+        for (const { target: v, isIntersecting } of entries) {
+          if (isIntersecting) {
+            if (!v.dataset.ready) {
+              v.dataset.ready = '1';
+              if (v._poster) v.poster = v._poster;
+              v.src = v._src;
+            }
+            visibleVideos.add(v);
+            playVideo(v);
+          } else {
+            visibleVideos.delete(v);
+            v.pause();
+          }
+        }
+      }, { rootMargin: '200px' })
+    : null;
+
+  const resumeVisible = () => visibleVideos.forEach(playVideo);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) resumeVisible(); });
   ['pointerdown', 'touchstart', 'keydown', 'scroll'].forEach(ev =>
-    document.addEventListener(ev, resumeAll, { once: true, passive: true }));
+    document.addEventListener(ev, resumeVisible, { once: true, passive: true }));
 
-  function makeVideo(item) {
+  function makeMedia(item) {
     const video = el('video', {
-      loop: true, autoplay: true, muted: true, defaultMuted: true, playsInline: true,
+      loop: true, muted: true, defaultMuted: true, playsInline: true,
       preload: 'none', disablePictureInPicture: true
     });
     video.setAttribute('muted', '');
@@ -309,40 +340,43 @@
     video.setAttribute('webkit-playsinline', '');
     video.setAttribute('aria-hidden', 'true');
     video.tabIndex = -1;
-    if (item.poster) video.poster = enc(item.poster);   // shows instantly while video loads
-    const base = item.videoBase;                         // assets/<id>/video/video
-    const attach = () => {
-      [['mp4', 'video/mp4'], ['webm', 'video/webm']].forEach(([ext, type]) =>
-        video.append(el('source', { src: enc(base + '.' + ext), type })));
-      // If no video file loads, fall back to the first screenshot
-      video.lastElementChild.addEventListener('error', () => {
-        videos.delete(video);
-        if (item.poster) video.replaceWith(el('img', { src: enc(item.poster), alt: '', decoding: 'async' }));
-      }, { once: true });
-      video.load();
-      keepPlaying(video);
-    };
-    // Only download a video when its card is about to scroll into view
-    if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver((entries) => {
-        if (entries.some(e => e.isIntersecting)) { io.disconnect(); attach(); }
-      }, { rootMargin: '300px' });
-      io.observe(video);
-    } else attach();
+    video._poster = item.poster ? enc(item.poster) : '';
+    video._src = enc(item.videoBase + '.mp4');
+
+    video.addEventListener('error', () => {
+      visibleVideos.delete(video);
+      if (videoIO) videoIO.unobserve(video);
+      
+      if (video._poster) {
+        const img = el('img', { src: video._poster, alt: '', decoding: 'async' });
+        img.addEventListener('error', () => {
+            const fallback = el('div', { className: 'media fallback' });
+            fallback.textContent = item.name.substring(0, 15);
+            img.replaceWith(fallback);
+        }, { once: true });
+        video.replaceWith(img);
+      } else {
+        const fallback = el('div', { className: 'media fallback' });
+        fallback.textContent = item.name.substring(0, 15);
+        video.replaceWith(fallback);
+      }
+    }, { once: true });
+    
+    if (videoIO) videoIO.observe(video);
+    else { video.poster = video._poster; video.src = video._src; video.autoplay = true; }
     return video;
   }
 
   /* ---------- Render ---------- */
-  function renderCard(listId, item, kind) {
+  function renderCard(listFrag, item, kind) {
     const k = KINDS[kind];
     const li = el('li');
     const card = el('div', { className: 'item app-card' });
     card.style.setProperty('--r', k.ratio);
     card.style.setProperty('--w', k.cardW);
 
-    const media = el('div', { className: 'media' });
-    item.video = makeVideo(item);
-    media.append(item.video);
+    const mediaWrapper = el('div', { className: 'media' });
+    mediaWrapper.append(makeMedia(item));
 
     const info = el('div', { className: 'info' });
     const title = el('h3', { textContent: item.name });
@@ -350,57 +384,95 @@
     const chips = el('div', { className: 'chips' });
     chips.append(...item.tags.map(t => el('span', { textContent: t })));
     const btn = el('button', { className: 'view-btn', type: 'button', textContent: k.button });
-    btn.addEventListener('click', () => openItem(item, k));
+    
+    // Look for website-url or url
+    const webLink = item.links.find(l => l[0] === 'Website');
+    if (kind === 'site' && webLink && webLink[1]) {
+        // If it has a URL, open it directly
+        btn.addEventListener('click', () => window.open(webLink[1], '_blank', 'noopener'));
+    } else {
+        // Otherwise, open the modal (to see screenshots/details)
+        btn.addEventListener('click', () => openItem(item, k));
+    }
+
     info.append(...[title, desc, chips, btn].filter(Boolean));
 
-    card.append(media, info);
+    card.append(mediaWrapper, info);
     li.append(card);
-    document.getElementById(listId).append(li);
+    listFrag.append(li);
   }
 
-  // Render each card immediately using the known first screenshot; load the rest lazily
-  async function loadApps() {
-    let apps = [];
-    try {
-      let data = window.APPS;                       // from apps.js (works when opened as a file)
-      if (!data) {                                  // otherwise try apps.json (needs a server)
-        const res = await fetch('apps.json', { cache: 'no-cache' });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        data = await res.json();
-      }
-      apps = Array.isArray(data) ? data : (data.apps || [data]);
-    } catch (e) {
-      console.error('Could not load apps data', e);
-      document.getElementById('app-list').append(el('li', { className: 'notice',
-        textContent: 'Could not load apps data. Make sure apps.js is next to index.html.' }));
-      return;
+  function loadApps() {
+    const listApps = document.getElementById('app-list');
+    const listSites = document.getElementById('site-list');
+    
+    const fragApps = document.createDocumentFragment();
+    const fragSites = document.createDocumentFragment();
+
+    // 1. Process Apps from apps.js
+    if (window.APPS) {
+        window.APPS.forEach(a => {
+            const basePath = 'assets/apps/' + String(a.id);
+            const links = [
+                ['GitHub', a.github], 
+                ['Play Store', a.playStore], 
+                ['App Store', a.appStore]
+            ].filter(([, val]) => val);
+
+            renderCard(fragApps, {
+              folder: String(a.id),
+              basePath: basePath, 
+              name: a.name, 
+              description: a.description,
+              tags: a.tags || [], 
+              links,
+              videoBase: basePath + '/video/video', 
+              poster: basePath + '/images/1.' + IMG_EXT, 
+              imageCount: a.imageCount || 0,
+              screenshots: null
+            }, 'app');
+        });
     }
-    for (const a of apps) {
-      const folder = String(a.id);                 // media lives in assets/<id>/
-      const base = 'assets/' + folder;
-      const links = [['GitHub', a.github], ['Play Store', a.playStore], ['App Store', a.appStore]]
-        .filter(([, url]) => url);
-      const item = {
-        folder, name: a.name, description: a.description,
-        tags: a.tags || [], links,
-        videoBase: base + '/video/video',
-        poster: '', imageCount: a.imageCount || 0, imageExt: a.imageExt || '',
-        screenshots: null
-      };
-      renderCard('app-list', item, 'app');           // no await: every card shows at once
-      const setPoster = p => { item.poster = p || ''; if (p && item.video) item.video.poster = enc(p); };
-      if (a.imageExt) setPoster(base + '/images/1.' + a.imageExt);
-      else findImage(base + '/images/', 1).then(setPoster);
+
+    // 2. Process Websites from websites.js
+    if (window.WEBSITES) {
+        window.WEBSITES.forEach(a => {
+            const basePath = 'assets/websites/' + String(a.id);
+            const url = a["website-url"] || a.url;
+            const links = [
+                ['GitHub', a.github], 
+                ['Website', url]
+            ].filter(([, val]) => val);
+
+            renderCard(fragSites, {
+              folder: String(a.id),
+              basePath: basePath, 
+              name: a.name, 
+              description: a.description,
+              tags: a.tags || [], 
+              links,
+              videoBase: basePath + '/video/video', 
+              poster: basePath + '/images/1.' + IMG_EXT, 
+              imageCount: a.imageCount || 0,
+              screenshots: null
+            }, 'site');
+        });
     }
+    
+    // 3. Append to DOM
+    if (fragApps.childNodes.length > 0) listApps.append(fragApps);
+    else listApps.innerHTML = '<li class="notice" style="border:none;justify-content:center;color:var(--muted);">No mobile apps added yet.</li>';
+
+    if (fragSites.childNodes.length > 0) listSites.append(fragSites);
+    else listSites.innerHTML = '<li class="notice" style="border:none;justify-content:center;color:var(--muted);">No websites added yet.</li>';
   }
+  
+  // Initialize
   loadApps();
-
-  // Re-kick videos when switching tabs / layouts (hidden panels can pause media)
-  document.querySelectorAll('.tab, .view button').forEach(b => b.addEventListener('click', () => setTimeout(resumeAll, 50)));
 
 
   /* ---------- Resources ---------- */
-  const RES_FOLDERS = { json: 'json', audio: 'audio', image: 'images', pdf: 'pdfs' };  // kind -> assets/resources/<folder>
+  const RES_FOLDERS = { json: 'json', audio: 'audio', image: 'images', pdf: 'pdfs' };
   const RES_ICONS = {
     json:  '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M8 13h8M8 17h8"/>',
     pdf:   '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M8 13h8M8 17h5"/>',
@@ -419,20 +491,19 @@
     i.onerror = () => res(null);
     i.src = url;
   });
-  // Finds the last existing number in a contiguous sequence with ~2*log2(n) requests (604 pages -> ~20 probes)
   async function countSeq(urlFor, cap = 5000) {
-    if (!(await probeImg(urlFor(1)))) return 0;
+    if (!(await exists(urlFor(1)))) return 0;
     let lo = 1, hi = 2;
-    while (hi <= cap && await probeImg(urlFor(hi))) { lo = hi; hi *= 2; }
+    while (hi <= cap && await exists(urlFor(hi))) { lo = hi; hi *= 2; }
     hi = Math.min(hi, cap + 1);
     while (hi - lo > 1) {
       const mid = (lo + hi) >> 1;
-      if (await probeImg(urlFor(mid))) lo = mid; else hi = mid;
+      if (await exists(urlFor(mid))) lo = mid; else hi = mid;
     }
     return lo;
   }
 
-  function renderGallery(r) {
+  function renderGallery(r, frag) {
     const digits = r.digits || 3, ext = r.ext || 'png', prefix = r.prefix ?? 'page';
     const dir = 'assets/resources/images/' + r.folder + '/';
     const pageUrl = i => dir + prefix + pad(i, digits) + '.' + ext;
@@ -459,7 +530,7 @@
       zipBtn.disabled = true; zipBtn.textContent = 'Preparing…';
       try {
         if (!(await ensureCount())) throw new Error('no pages');
-        if (r.zip) {                                   // ready-made zip supplied in the manifest
+        if (r.zip) {
           const a = el('a', { href: enc(dir + r.zip), download: r.zip });
           document.body.append(a); a.click(); a.remove();
         } else {
@@ -476,7 +547,7 @@
               zipBtn.textContent = 'Zipping ' + (++done) + '/' + count;
             }
           };
-          await Promise.all(Array.from({ length: 6 }, worker));   // 6 downloads at a time
+          await Promise.all(Array.from({ length: 6 }, worker));
           zipBtn.textContent = 'Building ZIP…';
           saveBlob(await zip.generateAsync({ type: 'blob', compression: 'STORE' }), r.folder + '.zip');
         }
@@ -500,11 +571,11 @@
     btns.append(btn, zipBtn);
     info.append(...[el('h3', { textContent: r.title }), desc, size, chips, btns].filter(Boolean));
     card.append(icon, info); li.append(card);
-    document.getElementById('res-list').append(li);
+    frag.append(li);
   }
 
-  function renderResource(r) {
-    if (r.kind === 'gallery') return renderGallery(r);
+  function renderResource(r, frag) {
+    if (r.kind === 'gallery') return renderGallery(r, frag);
     const folder = RES_FOLDERS[r.kind] || r.kind;
     const file = r.file || (r.id + '.' + (r.kind === 'image' ? 'webp' : r.kind === 'audio' ? 'mp3' : r.kind));
     const url = enc('assets/resources/' + folder + '/' + file);
@@ -526,9 +597,13 @@
     const player = r.kind === 'audio' ? el('audio', { controls: true, preload: 'none', src: url }) : null;
     info.append(...[el('h3', { textContent: r.title }), desc, size, chips, player, btns].filter(Boolean));
     card.append(icon, info); li.append(card);
-    document.getElementById('res-list').append(li);
+    frag.append(li);
   }
-  (window.RESOURCES || []).forEach(renderResource);
+  {
+    const frag = document.createDocumentFragment();
+    (window.RESOURCES || []).forEach(r => renderResource(r, frag));
+    document.getElementById('res-list').append(frag);
+  }
 
   /* ---------- Modal ---------- */
   async function openItem(item, k) {
@@ -549,18 +624,26 @@
     shots.dataset.full = item.full ? '1' : '';
     shots.style.setProperty('--r', k.ratio);
     shots.style.setProperty('--min', k.shotMin);
+    shots.replaceChildren(); 
     overlay.hidden = false;
 
-    if (!item.screenshots) item.screenshots = await loadScreenshots(item.folder, 30, item.imageCount, item.imageExt);
-    shots.replaceChildren(...item.screenshots.map((src, i) =>
-      el('img', { src: enc(src), alt: item.name + ' screenshot ' + (i + 1), loading: 'lazy', decoding: 'async' })
-    ));
+    if (!item.screenshots && item.basePath) {
+      item.screenshots = await loadScreenshots(item.basePath, 30, item.imageCount);
+    }
+    
+    if (item.screenshots.length === 0) {
+        shots.innerHTML = '<p style="color:var(--muted); padding: 10px;">No screenshots available.</p>';
+    } else {
+        shots.replaceChildren(...item.screenshots.map((src, i) =>
+          el('img', { src: enc(src), alt: item.name + ' screenshot ' + (i + 1), loading: 'lazy', decoding: 'async' })
+        ));
+    }
   }
 
   document.getElementById('m-shots').addEventListener('click', e => {
     if (e.target.tagName === 'IMG' && e.currentTarget.dataset.full) window.open(e.target.src, '_blank', 'noopener');
   });
-  const closeApp = () => { overlay.hidden = true; resumeAll(); };
+  const closeApp = () => { overlay.hidden = true; };
   document.getElementById('m-close').addEventListener('click', closeApp);
   overlay.addEventListener('click', e => { if (e.target === overlay) closeApp(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeApp(); });
