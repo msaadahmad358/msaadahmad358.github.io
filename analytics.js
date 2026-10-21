@@ -9,7 +9,7 @@
   'use strict';
 
   /* ===================== SETTINGS ===================== */
-  var GA_ID = 'G-XXXXXXXXXX';   // <- replace with your Measurement ID
+  var GA_ID = 'G-5FWNXDWWX1';   // <- replace with your Measurement ID
   var REQUIRE_CONSENT = false;  // true = show a cookie banner and wait for "Accept"
                                 // (turn on if you get EU/UK visitors or add AdSense)
   /* ==================================================== */
