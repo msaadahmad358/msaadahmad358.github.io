@@ -40,7 +40,7 @@ window.APPS = [
   {
     "id": 5,
     "name": "Islamic Donation Mobile App - Quran, Hadith, Prayer Times",
-    "description": "A moderndonation mobile app with a clean interface, built with Flutter.",
+    "description": "A modern Islamic donation mobile app with a clean interface, built with Flutter.",
     "github": null,
     "playStore": "https://play.google.com/store/apps/details?id=com.mnibolton.mni",
     "appStore": "https://apps.apple.com/mx/app/mni-bolton/id6778692289",
