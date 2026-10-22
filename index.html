@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <!-- ===== SEO: replace https://msaadahmad358.github.io with your real site address (4 places) ===== -->
+  <!-- ===== SEO ===== -->
   <title>Muhammad Saad Ahmad | Flutter Developer for Islamic Quran, Hadith &amp; Prayer Apps</title>
   <meta name="description" content="Flutter developer building Quran, Hadith, prayer times and Islamic donation apps for Android and iOS. See published apps, websites and free Quran resources, then hire me on Fiverr or WhatsApp.">
   <meta name="author" content="Muhammad Saad Ahmad">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <meta name="theme-color" content="#f6f5f2">
+  <meta name="theme-color" content="#ffffff">
   <link rel="canonical" href="https://msaadahmad358.github.io/">
   <script src="analytics.js" defer></script>
 
-  <!-- Open Graph (WhatsApp, LinkedIn, Facebook) -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Muhammad Saad Ahmad">
   <meta property="og:title" content="Muhammad Saad Ahmad | Flutter Developer for Islamic Apps">
@@ -25,7 +25,7 @@
   <meta property="og:image:alt" content="Muhammad Saad Ahmad, Flutter developer for Islamic apps">
   <meta property="og:locale" content="en_US">
 
-  <!-- Twitter / X card -->
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Muhammad Saad Ahmad | Flutter Developer for Islamic Apps">
   <meta name="twitter:description" content="Quran, Hadith, prayer times and donation apps for Android and iOS.">
@@ -40,11 +40,12 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
+  
   <style>
   :root {
-    --bg: #f6f5f2;
-    --surface: #ffffff;
+    --bg: #FFFFFF; 
+    --surface: #F5F5F7; 
     --text: #1d232b;
     --muted: #5d6673;
     --line: #d8d6d0;
@@ -52,37 +53,22 @@
     --accent: #1f3a5f;
     --accent-text: #ffffff;
     --frame: #eceae5;
-    --shadow: none;
-    --shadow-hover: none;
-    --content-max: 600px;   
+    --content-max: 800px;
     --frame-pad: 4px;       
     --frame-border: 1px;
     --frame-extra: calc((var(--frame-pad) + var(--frame-border)) * 2); 
     color-scheme: light;
   }
   * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: smooth; }
   body {
     min-height: 100vh; min-height: 100dvh; margin: 0;
-    padding: 40px 16px 56px;
-    padding-left: max(16px, env(safe-area-inset-left));
-    padding-right: max(16px, env(safe-area-inset-right));
-    padding-bottom: max(56px, env(safe-area-inset-bottom));
+    padding: 0;
     display: flex; flex-direction: column; align-items: center; text-align: center;
     background: var(--bg); color: var(--text);
     font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.5;
-  }
-  
-  /* NEW: Logo Styling */
-  .profile-logo {
-    height: 80px;
-    width: auto;
-    max-width: 100%;
-    object-fit: contain;
-    margin-bottom: 20px;
-    /* Optional: Subtle drop shadow to match the premium look */
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+    overflow-x: clip;
   }
 
   h1 {
@@ -93,290 +79,552 @@
     overflow-wrap: anywhere; text-wrap: balance;
   }
 
-
-  /* ----- SEO text: intro + section headings ----- */
-  .intro { max-width: var(--content-max); margin: -6px 0 24px; font-size: 16px; color: var(--muted); text-wrap: balance; }
-  .intro strong { color: var(--text); font-weight: 600; }
-  .panel > h2 { margin: 0 0 14px; font-family: Georgia, "Times New Roman", serif; font-size: 18px; font-weight: 600; text-align: left; line-height: 1.35; }
-  .panel > .sec-intro { margin: -8px 0 14px; font-size: 14px; color: var(--muted); text-align: left; }
-
-  /* ----- conversion: CTA buttons, status, stats, services, testimonials ----- */
-  .links.cta { margin-top: 4px; }
-  .links.secondary { margin-top: 10px; }
-  .box.btn-primary, .box.btn-secondary { padding: 12px 22px; font-size: 16px; font-weight: 600; }
-  .box.btn-primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
-  .box.btn-primary:hover { opacity: .9; }
-  .box.btn-secondary { border-color: var(--accent); color: var(--accent); }
-  .box.btn-secondary:hover { background: var(--accent); color: var(--accent-text); }
-  .box.box-small { padding: 6px 14px; font-size: 14px; color: var(--muted); }
-  .status { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 14px; font-size: 14px; color: var(--muted); }
-  .status .dot { width: 8px; height: 8px; border-radius: 50%; background: #2e9e5b; }
-  .stats { margin: -10px 0 14px; font-size: 14px; color: var(--muted); }
-  .stats[hidden] { display: none; }
-
-  .services, .testimonials, .final-cta { width: 100%; max-width: var(--content-max); margin-top: 40px; text-align: left; }
-  .services h2, .testimonials h2, .final-cta h2 { margin: 0 0 14px; font-family: Georgia, "Times New Roman", serif; font-size: 18px; font-weight: 600; line-height: 1.35; }
-  .svc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 12px; }
-  .svc { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 2px; }
-  .svc h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 16px; font-weight: 600; line-height: 1.3; }
-  .svc p { margin: 0; font-size: 14px; color: var(--muted); flex: 1; }
-  .svc a { font-size: 14px; font-weight: 600; color: var(--accent); text-decoration: none; }
-  .svc a:hover { text-decoration: underline; }
-
-  .testimonials[hidden] { display: none; }
-  .testi-list { display: grid; gap: 12px; }
-  .testi { margin: 0; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 2px; }
-  .testi blockquote { margin: 0 0 8px; font-size: 15px; }
-  .testi figcaption { font-size: 13px; color: var(--muted); }
-  .testi figcaption a { color: var(--accent); }
-
-  .final-cta { padding: 20px 16px; text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: 2px; }
-  .final-cta p { margin: 0 0 16px; font-size: 15px; color: var(--muted); }
-  .site-footer { margin-top: 28px; font-size: 13px; color: var(--muted); }
-
-  .float-wa {
-    position: fixed; z-index: 9; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom));
-    display: flex; align-items: center; justify-content: center; width: 54px; height: 54px; border-radius: 50%;
-    background: #25d366; color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.25); transition: transform .15s;
+  /* ===================== NAV + HERO ===================== */
+  :root {
+    --h-blue: #0071E3;
+    --h-grey: #F5F5F7;
+    --h-white: #FFFFFF;
+    --h-black: #000000;
+    --h-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --h-nav-h: 64px;
   }
-  .float-wa:hover { transform: scale(1.06); }
-  .float-wa svg { width: 28px; height: 28px; fill: currentColor; }
-
-  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-  .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%; max-width: var(--content-max); }
-  .box {
-    display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 16px;
-    color: var(--text); text-decoration: none; font-size: 15px; line-height: 20px;
-    background: var(--surface); border: 1px solid var(--line); border-radius: 2px;
-    transition: border-color .15s, box-shadow .15s;
+  .site-nav, .hero {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    font-family: var(--h-font);
+    color: var(--h-black);
+    text-align: center;
   }
-  .box:hover { border-color: var(--accent); }
-  .box svg { flex: none; width: 20px; height: 20px; fill: currentColor; }
 
-  .tabs { display: flex; justify-content: center; gap: 0; margin-top: 40px; border-bottom: 1px solid var(--line); width: 100%; max-width: var(--content-max); }
+  /* Navigation */
+  .site-nav { position: relative; z-index: 20; background: var(--h-white); height: var(--h-nav-h); }
+  .nav-inner {
+    height: 100%; max-width: 1280px; margin: 0 auto;
+    padding-inline: max(24px, env(safe-area-inset-left)) max(24px, env(safe-area-inset-right));
+    display: flex; align-items: center; justify-content: center; gap: 40px;
+  }
+  .nav-logo { display: flex; align-items: center; flex: none; }
+  .nav-logo img { height: 28px; width: auto; display: block; }
+  .nav-links { display: flex; align-items: center; gap: 32px; margin: 0; padding: 0; list-style: none; }
+  .nav-links a {
+    display: block; padding: 8px 0;
+    font-size: 15px; font-weight: 400; line-height: 24px;
+    color: var(--h-black); text-decoration: none; transition: color .15s;
+  }
+  .nav-links a:hover { color: var(--h-blue); }
+  .nav-toggle {
+    display: none; align-items: center; justify-content: center;
+    width: 44px; height: 44px; margin-right: -10px; padding: 0;
+    background: transparent; border: 0; cursor: pointer; color: var(--h-black);
+  }
+  .nav-toggle svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; fill: none; }
+
+  /* Hero */
+  .hero { background: var(--h-grey); overflow: hidden; }
+  .hero-inner {
+    max-width: 1280px; margin: 0 auto;
+    padding-inline: max(24px, env(safe-area-inset-left)) max(24px, env(safe-area-inset-right));
+    /* Adjusted padding to tighten the container */
+    padding-block: 24px 0;
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    align-items: stretch; /* This allows the image to stick to the bottom */
+  }
+  
+  .hero-copy { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 0 24px 48px 24px; 
+  }
+  
+  .hero .hero-title {
+    margin: 0; padding: 0; max-width: none;
+    font-family: var(--h-font); font-weight: 700;
+    font-size: clamp(40px, 6vw, 76px); line-height: 1.05; letter-spacing: -0.03em;
+    color: var(--h-black); text-wrap: balance;
+  }
+  
+  .hero-sub {
+    margin: 16px 0 0; 
+    font-size: clamp(18px, 1.7vw, 24px); font-weight: 400; line-height: 1.4; letter-spacing: -0.01em;
+    color: var(--h-black);
+  }
+  
+  .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-top: 32px; }
+  
+  .hero-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 48px; padding: 0 28px; border-radius: 999px;
+    font-family: var(--h-font); font-size: 17px; font-weight: 500; line-height: 1; letter-spacing: -0.01em;
+    text-decoration: none; white-space: nowrap; cursor: pointer;
+    border: 1.5px solid var(--h-blue);
+    transition: background-color .15s, color .15s, opacity .15s;
+  }
+  .hero-btn.primary { background: var(--h-blue); color: var(--h-white); }
+  .hero-btn.primary:hover { opacity: .88; }
+  .hero-btn.outline { background: transparent; color: var(--h-blue); }
+  .hero-btn.outline:hover { background: var(--h-blue); color: var(--h-white); }
+  .hero-btn:focus-visible, .nav-links a:focus-visible, .nav-toggle:focus-visible, .nav-logo:focus-visible {
+    outline: 2px solid var(--h-blue); outline-offset: 3px;
+  }
+  
+  /* Hero Image - Sticked to bottom */
+  .hero-media { 
+    display: flex; 
+    align-items: flex-end; 
+    justify-content: center; 
+    min-width: 0; 
+    /* Removed self-alignment so it stretches with the grid */
+  }
+  
+  .hero-media img {
+    display: block; 
+    width: auto; 
+    max-width: 100%;
+    max-height: 500px; 
+    object-fit: contain;
+    /* Negative margin pulls it 15px down to bleed off the bottom edge */
+    margin-bottom: -15px; 
+  }
+
+  @media (max-width: 768px) {
+    .nav-inner { justify-content: space-between; gap: 0; }
+    .nav-toggle { display: flex; }
+    .nav-links {
+      position: absolute; top: var(--h-nav-h); left: 0; right: 0;
+      flex-direction: column; align-items: stretch; gap: 0;
+      padding: 8px 24px 16px; background: var(--h-white);
+      border-top: 1px solid rgba(0,0,0,.08); box-shadow: 0 12px 24px rgba(0,0,0,.06);
+      text-align: left; display: none;
+    }
+    .site-nav.open .nav-links { display: flex; }
+    .nav-links a { padding: 14px 0; font-size: 17px; border-bottom: 1px solid rgba(0,0,0,.06); }
+    .nav-links li:last-child a { border-bottom: 0; }
+
+    .hero-inner { 
+      grid-template-columns: 1fr; 
+      gap: 32px; 
+      padding-block: 32px 0; /* Keep 0 bottom padding for mobile too */
+    }
+    .hero-copy { padding: 0 24px; }
+    .hero-sub { margin-top: 12px; }
+    .hero-actions { flex-direction: column; align-items: center; gap: 12px; margin-top: 24px; width: 100%; }
+    .hero-btn { width: min(100%, 220px); }
+    .hero-media { 
+      width: 100%; 
+      padding: 0 24px;
+    }
+    .hero-media img { 
+      max-height: 380px; 
+      margin-bottom: -10px; /* Slight bleed on mobile */
+    }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .hero-btn, .nav-links a { transition: none; } }
+  /* ===================== /NAV + HERO ===================== */
+
+  /* ----- Wrapper for rest of content ----- */
+  .main-content {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 16px 56px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+
+  /* ----- TABS & VIEW SECTION ----- */
+  .tabs-header {
+    width: 100%;
+    max-width: var(--content-max);
+    margin: 48px auto 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    scroll-margin-top: 80px;
+  }
+
+  .tabs { display: flex; align-items: center; gap: 8px; }
+  
   .tab {
-    flex: 1 1 0; min-width: 0;
-    font: inherit; font-size: 15px; color: var(--muted); background: transparent; border: 0;
-    border-bottom: 2px solid transparent; margin-bottom: -1px; padding: 10px 4px; cursor: pointer;
-    text-align: center; white-space: nowrap;
+    font-family: var(--h-font); font-size: 18px; font-weight: 500;
+    color: var(--h-black); background: transparent; border: none;
+    padding: 8px 20px; border-radius: 999px; cursor: pointer;
+    white-space: nowrap; transition: background-color 0.2s, color 0.2s;
   }
-  .tab:hover { color: var(--text); }
-  .tab[aria-selected="true"] { color: var(--accent); font-weight: 600; border-bottom-color: var(--accent); }
+  .tab:hover { color: var(--muted); }
+  .tab[aria-selected="true"] { background: var(--h-black); color: var(--h-white); }
 
-  .view { display: flex; justify-content: center; gap: 6px; margin-top: 20px; }
-  .view button { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; padding: 0; background: var(--surface); color: var(--muted); border: 1px solid var(--line); border-radius: 2px; cursor: pointer; line-height: 0; }
-  .view button[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
-  .view svg, .item svg { flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .view { display: flex; gap: 16px; }
+  .view button { 
+    display: flex; align-items: center; justify-content: center; 
+    background: transparent; color: var(--h-black); border: none; 
+    cursor: pointer; padding: 4px; opacity: 0.4; transition: opacity 0.2s;
+  }
+  .view button:hover { opacity: 0.7; }
+  .view button[aria-pressed="true"] { opacity: 1; }
+  .view svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 
+  @media (max-width: 768px) {
+    .tabs-header { flex-direction: column; gap: 16px; margin: 32px auto 16px; }
+    .tabs { width: 100%; justify-content: space-between; }
+    .tab { font-size: 16px; padding: 8px 12px; }
+    .view { align-self: flex-end; }
+  }
+
+  /* ----- PANELS ----- */
   .panel { margin-top: 20px; width: 100%; max-width: var(--content-max); padding: 0; }
   .panel[hidden] { display: none; }
-  .panel ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+  .panel ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 20px; }
   .panel ul.list { grid-template-columns: minmax(0, 1fr); }
-  .panel ul.grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 130px), 1fr)); }
+  .panel ul.grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); }
   .panel li { min-width: 0; display: flex; }
   .panel li > * { flex: 1 1 auto; min-width: 0; }
 
+  /* ----- Project Cards ----- */
   .item {
-    display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text);
-    text-decoration: none; background: var(--surface); border: 1px solid var(--line);
-    border-radius: 2px; text-align: left;
+    display: flex; align-items: center; gap: 20px; padding: 20px; color: var(--text);
+    text-decoration: none; background: var(--surface);
+    border: 1px solid transparent; border-radius: 16px; text-align: left;
   }
-  .item svg { color: var(--accent); }
-
-  /* ----- project card ----- */
-  .app-card { align-items: center; gap: 16px; padding: 14px; }
+  
+  .app-card { position: relative; }
 
   .media {
-    box-sizing: content-box;
-    flex: 0 0 auto;
-    width: calc(var(--w, 72px) - var(--frame-extra));
-    aspect-ratio: var(--r, 9 / 16);
-    align-self: center;
-    background: var(--frame); border: var(--frame-border) solid var(--line); border-radius: 2px; padding: var(--frame-pad);
+    box-sizing: content-box; flex: 0 0 auto;
+    width: calc(var(--w, 120px) - var(--frame-extra));
+    aspect-ratio: var(--r, 9 / 16); align-self: center;
+    background: transparent; border: none; border-radius: 0; padding: 0;
     display: flex; align-items: center; justify-content: center; overflow: hidden;
   }
   .media video, .media img { display: block; width: 100%; height: 100%; object-fit: contain; }
-  .media.fallback { background: #eef1f5; color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 14px; letter-spacing: 0.05em; }
+  .media.fallback { background: #eef1f5; color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 14px; letter-spacing: 0.05em; border-radius: 8px;}
   
-  .info { display: flex; flex-direction: column; justify-content: center; gap: 8px; min-width: 0; flex: 1 1 0; }
-  .info h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 17px; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
-  .notice { padding: 14px 16px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 14px; text-align: left; }
+  .info { display: flex; flex-direction: column; justify-content: center; gap: 10px; min-width: 0; flex: 1 1 0; }
+  .info h3 { margin: 0; font-family: var(--h-font); font-size: 20px; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; color: var(--h-black); }
   .desc { margin: 0; font-size: 14px; color: var(--muted); overflow-wrap: anywhere; }
+  
+  .card-bottom { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+
   .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .chips span { font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 2px; padding: 1px 8px; }
+  .chips span { font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 2px 8px; }
+  
   .view-btn {
-    align-self: flex-start; margin-top: 2px; background: var(--accent); color: var(--accent-text);
-    border: 1px solid var(--accent); border-radius: 2px; padding: 7px 16px; font: inherit; font-size: 14px;
-    font-weight: 600; cursor: pointer; transition: opacity .15s;
+    background: var(--h-blue); color: var(--h-white);
+    border: none; border-radius: 20px; padding: 8px 18px; font: inherit; font-size: 14px;
+    font-weight: 600; cursor: pointer; transition: opacity .15s; white-space: nowrap;
   }
   .view-btn:hover { opacity: .88; }
-  ul.grid .app-card { flex-direction: column; text-align: center; align-items: center; }
-  ul.grid .media { width: calc(min(100%, 160px) - var(--frame-extra)); flex: 0 0 auto; }
-  ul.grid .info { align-items: center; flex: 0 0 auto; width: 100%; }
+  
+  .availability { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+  .availability a { color: var(--h-blue); text-decoration: none; }
+  .availability a:hover { text-decoration: underline; }
+
+  /* Grid View Overrides */
+  ul.grid .app-card { flex-direction: column; text-align: center; align-items: center; padding: 24px 20px; }
+  ul.grid .media { width: 100%; max-width: 220px; margin-bottom: 12px; }
+  ul.grid .info { align-items: center; flex: 0 0 auto; width: 100%; gap: 16px; }
+  ul.grid .card-bottom { justify-content: center; flex-direction: column; gap: 12px; width: 100%; }
   ul.grid .chips { display: none; }
-  ul.grid .view-btn { align-self: center; }
+  ul.grid .view-btn { align-self: center; padding: 10px 24px; font-size: 15px; }
 
-
-  /* ----- resource card ----- */
-  .res-card { align-items: center; gap: 14px; padding: 14px; }
-  .res-icon { flex: none; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: var(--frame); border: 1px solid var(--line); border-radius: 2px; }
-  .res-icon svg { width: 24px; height: 24px; }
+  /* ----- Resource Card ----- */
+  .res-card { align-items: center; gap: 16px; padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+  .res-icon { flex: none; display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: var(--frame); border: 1px solid var(--line); border-radius: 8px; }
+  .res-icon svg { width: 28px; height: 28px; }
   .btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2px; }
   .btns .view-btn { margin-top: 0; align-self: auto; text-decoration: none; display: inline-block; line-height: 1.5; }
-  .view-btn.alt { background: transparent; color: var(--accent); }
+  .view-btn.alt { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
   .res-card audio { width: 100%; max-width: 100%; height: 36px; }
   ul.grid .res-card { flex-direction: column; text-align: center; }
   ul.grid .res-card .info { align-items: center; flex: 0 0 auto; width: 100%; }
   ul.grid .res-card .chips { display: none; }
   ul.grid .res-card .btns { justify-content: center; }
 
-  /* ----- modal ----- */
+  /* ----- FOOTER DESIGN ----- */
+  .site-footer {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    background-color: #000000;
+    color: #ffffff;
+    padding: 64px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: var(--h-font);
+    scroll-margin-top: 20px;
+  }
+
+  .footer-profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 24px;
+    background-color: #333;
+  }
+
+  .footer-name {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    color: #ffffff;
+  }
+
+  .footer-subtitle {
+    font-size: 16px;
+    color: #cccccc;
+    margin: 0 0 32px;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    max-width: 800px;
+  }
+
+  .footer-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--h-blue);
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+
+  .footer-btn:hover { opacity: 0.85; }
+  .footer-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+  @media (max-width: 768px) {
+    .footer-name { font-size: 26px; }
+    .footer-subtitle { font-size: 14px; }
+    .footer-btn { padding: 8px 16px; font-size: 13px; }
+  }
+
+  /* ----- MODAL (ALERT SECTION) ----- */
   .overlay {
     position: fixed; inset: 0; background: rgba(10,14,20,.6); display: flex; align-items: center; justify-content: center;
     padding: 16px; padding-top: max(16px, env(safe-area-inset-top)); padding-bottom: max(16px, env(safe-area-inset-bottom));
-    z-index: 10;
+    z-index: 30;
   }
   .overlay[hidden] { display: none; }
+  
   .modal {
-    position: relative; background: var(--surface); color: var(--text); width: 100%; max-width: 640px;
-    max-height: 92vh; max-height: 92dvh; overflow: auto; overscroll-behavior: contain;
-    padding: clamp(16px, 5vw, 28px); text-align: left; border: 1px solid var(--line); border-radius: 2px;
+    position: relative; 
+    background: #FFFFFF; 
+    color: #000000; 
+    width: 100%; 
+    max-width: 900px;
+    max-height: 92vh; 
+    max-height: 92dvh; 
+    overflow: auto; 
+    overscroll-behavior: contain;
+    padding: 40px 32px; 
+    text-align: left; 
+    border-radius: 4px;
+    font-family: var(--h-font);
   }
-  .modal .close { position: absolute; top: 12px; right: 12px; display: flex; align-items: center; justify-content: center; background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 2px; width: 32px; height: 32px; padding: 0; font-size: 20px; line-height: 1; cursor: pointer; }
-  .modal .close:hover { color: var(--text); border-color: var(--line-strong); }
-  .modal h2 { margin: 0 0 12px; padding-right: 40px; font-family: Georgia, "Times New Roman", serif; font-weight: 600; font-size: 22px; line-height: 32px; overflow-wrap: anywhere; }
-  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-  .tags:empty { display: none; }
-  .tags span { border: 1px solid var(--line); border-radius: 2px; padding: 1px 10px; font-size: 13px; color: var(--muted); }
-  .avail { margin: 0 0 20px; color: var(--muted); font-size: 15px; }
-  .avail a { margin-left: .28em; color: var(--accent); }
 
-  .shots { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--min, 90px), 1fr)); gap: 0; margin: -5px; }
+  .modal .close { 
+    position: absolute; 
+    top: 16px; 
+    right: 16px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background: transparent; 
+    color: #000000; 
+    border: 1.5px solid #000000; 
+    border-radius: 0;
+    width: 32px; 
+    height: 32px; 
+    padding: 0; 
+    font-size: 20px; 
+    line-height: 1; 
+    cursor: pointer; 
+  }
+  .modal .close:hover { background: #f0f0f0; }
+
+  .modal h2 { 
+    margin: 0 0 12px; 
+    padding-right: 40px; 
+    font-family: var(--h-font); 
+    font-weight: 700; 
+    font-size: 28px; 
+    line-height: 1.2; 
+    overflow-wrap: anywhere; 
+    color: #000000;
+  }
+  
+  /* Inline Availability */
+  .modal .avail { 
+    margin: 0 0 16px; 
+    color: #000000; 
+    font-size: 15px; 
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+  .modal .avail a { 
+    color: #0071E3; 
+    text-decoration: none; 
+  }
+  .modal .avail a:hover { text-decoration: underline; }
+
+  /* Tags styled as light grey boxes */
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+  .tags:empty { display: none; }
+  .tags span { 
+    border: 1px solid #d1d1d1; 
+    background: #FAFAFA;
+    border-radius: 4px; 
+    padding: 4px 12px; 
+    font-size: 13px; 
+    color: #333333; 
+  }
+
+  /* Screenshot Grid */
+  .shots { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+    gap: 16px; 
+    margin-top: 24px;
+  }
   .shots[data-full="1"] img { cursor: pointer; }
   .shots img {
-    box-sizing: content-box; display: block;
-    width: calc(100% - 20px); margin: 5px;
-    aspect-ratio: var(--r, 9 / 16); object-fit: contain;
-    background: var(--frame); padding: var(--frame-pad); border: var(--frame-border) solid var(--line); border-radius: 2px;
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  @media (max-width: 600px) {
+    .modal { padding: 24px 20px; }
+    .modal h2 { font-size: 22px; }
+    .shots { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
   }
 
   @media (max-width: 380px) {
-    body { padding-top: 28px; }
-    .box { padding: 8px 12px; }
-    .app-card { gap: 12px; padding: 12px; }
-    .profile-logo { height: 60px; }
+    .item { padding: 12px; gap: 12px; }
+    .info h3 { font-size: 18px; }
+    .tab { font-size: 15px; padding: 6px 10px; }
   }
 </style>
 </head>
 <body>
-  
-  <!-- Logo added here -->
-  <img src="assets/logo.png" alt="Muhammad Saad Ahmad logo" class="profile-logo" width="80" height="80" decoding="async">
-  
-  <h1>MUHAMMAD SAAD AHMAD</h1>
-  <p class="intro"><strong>Flutter developer</strong> building Quran, Hadith, prayer times and Islamic donation apps for <strong>Android and iOS</strong>. Browse my published apps, websites and free Quran resources below.</p>
 
-  <p class="stats" id="stats" hidden></p>
-  <p class="status"><span class="dot" aria-hidden="true"></span>Available for new projects</p>
+  <!-- ===== NAV ===== -->
+  <header class="site-nav" id="top">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#top" aria-label="Muhammad Saad Ahmad, home">
+        <img src="assets/logo.png" alt="Muhammad Saad Ahmad logo" width="28" height="28" decoding="async">
+      </a>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18"/></svg>
+      </button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#apps" data-tab="apps">Mobile Apps</a></li>
+        <li><a href="#websites" data-tab="websites">Websites</a></li>
+        <li><a href="#resources" data-tab="resources">Resources</a></li>
+        <li><a href="#contact">Contact Me</a></li>
+      </ul>
+    </div>
+  </header>
 
-  <div class="links cta">
-    <a class="box btn-primary" href="https://wa.me/923246683433?text=Hi%20Saad%2C%20I%20saw%20your%20portfolio%20and%20I%27d%20like%20to%20discuss%20a%20project%20%28app%20or%20website%29.%20Can%20we%20talk%3F" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Chat on WhatsApp
-    </a>
-    <a class="box btn-secondary" href="https://www.fiverr.com/isaadrizvi/develop-islamic-mobile-app-ios-android" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18"/></svg>
-      Hire me on Fiverr
-    </a>
-  </div>
-  <div class="links secondary">
-    <a class="box box-small" href="https://www.linkedin.com/in/msaadahmad358/" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg>
-      Let's connect
-    </a>
-    <a class="box box-small" href="https://github.com/msaadahmad358" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-      See my code
-    </a>
-  </div>
-
-  <section class="services" id="services" aria-labelledby="services-h">
-    <h2 id="services-h">What I can build for you</h2>
-    <div class="svc-grid">
-      <article class="svc">
-        <h3>Islamic Mobile App Development</h3>
-        <p>Quran, Hadith, prayer times, Qibla, duas and digital tasbih apps. One Flutter codebase for Android and iOS.</p>
-        <a href="https://wa.me/923246683433?text=Hi%20Saad%2C%20I%20saw%20your%20portfolio%20and%20I%27m%20interested%20in%20Islamic%20mobile%20app%20development%20%28Quran%2C%20Hadith%2C%20prayer%20times%2C%20etc.%29.%20Can%20we%20discuss%20my%20project%3F" target="_blank" rel="noopener">Discuss this project &rarr;</a>
-      </article>
-      <article class="svc">
-        <h3>Quran &amp; Hadith Apps</h3>
-        <p>Offline Quran, Quran PDF readers, Hadith collections and Islamic poetry apps with a clean reading experience.</p>
-        <a href="https://wa.me/923246683433?text=Hi%20Saad%2C%20I%20saw%20your%20portfolio%20and%20I%27d%20like%20a%20Quran%20or%20Hadith%20reading%20app.%20Can%20we%20discuss%20my%20project%3F" target="_blank" rel="noopener">Discuss this project &rarr;</a>
-      </article>
-      <article class="svc">
-        <h3>Islamic Websites</h3>
-        <p>Websites with the Quran, Hadith books, prayer times and Asma-ul-Husna, built to be fast and easy to find on Google.</p>
-        <a href="https://wa.me/923246683433?text=Hi%20Saad%2C%20I%20saw%20your%20portfolio%20and%20I%27d%20like%20an%20Islamic%20website%20%28Quran%2C%20Hadith%2C%20prayer%20times%29.%20Can%20we%20discuss%20my%20project%3F" target="_blank" rel="noopener">Discuss this project &rarr;</a>
-      </article>
-      <article class="svc">
-        <h3>App Store &amp; Play Store Publishing</h3>
-        <p>Store listing, screenshots, build and submission for Google Play and the Apple App Store, so your app goes live.</p>
-        <a href="https://wa.me/923246683433?text=Hi%20Saad%2C%20I%20saw%20your%20portfolio%20and%20I%20need%20help%20publishing%20my%20app%20to%20the%20Play%20Store%20and%20App%20Store.%20Can%20we%20discuss%20it%3F" target="_blank" rel="noopener">Discuss this project &rarr;</a>
-      </article>
+  <!-- ===== HERO ===== -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <h1 class="hero-title" id="hero-title">Build Apps</h1>
+        <p class="hero-sub">iOS - Android - Website</p>
+        <div class="hero-actions">
+          <a class="hero-btn primary" href="https://www.fiverr.com/isaadrizvi/develop-islamic-mobile-app-ios-android" target="_blank" rel="noopener">Build Project</a>
+          <a class="hero-btn outline" href="#contact">Contact Me</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src="assets/hero-image.png" alt="Hand holding a phone showing a Quran reading app" width="900" height="1200" fetchpriority="high" decoding="async">
+      </div>
     </div>
   </section>
 
+  <!-- MAIN CONTENT WRAPPER -->
+  <div class="main-content">
+    
+    <!-- ===== TABS & VIEW SECTION ===== -->
+    <div class="tabs-header" id="tabs-section">
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" data-target="apps">Mobile Apps</button>
+        <button class="tab" role="tab" aria-selected="false" data-target="websites">Websites</button>
+        <button class="tab" role="tab" aria-selected="false" data-target="resources">Resources</button>
+      </div>
 
-  <div class="tabs" role="tablist">
-    <button class="tab" role="tab" aria-selected="true" data-target="apps">Mobile Apps</button>
-    <button class="tab" role="tab" aria-selected="false" data-target="websites">Websites</button>
-    <button class="tab" role="tab" aria-selected="false" data-target="resources">Resources</button>
-  </div>
-
-  <div class="view" role="group" aria-label="View">
-    <button data-view="grid" aria-pressed="false" aria-label="Grid view" title="Grid"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></button>
-    <button data-view="list" aria-pressed="true" aria-label="List view" title="List"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></button>
-  </div>
-
-  <section class="panel" id="apps" role="tabpanel">
-    <h2>Islamic Mobile Apps for Android &amp; iOS</h2>
-    <ul class="list" id="app-list"></ul>
-  </section>
-  <section class="panel" id="websites" role="tabpanel" hidden>
-    <h2>Islamic Websites: Quran, Hadith &amp; Prayer Times</h2>
-    <ul class="list" id="site-list"></ul>
-  </section>
-  <section class="panel" id="resources" role="tabpanel" hidden>
-    <h2>Free Quran Resources for Developers</h2>
-    <ul class="list" id="res-list"></ul>
-  </section>
-
-
-  <section class="testimonials" id="testimonials" aria-labelledby="testi-h" hidden>
-    <h2 id="testi-h">What clients say</h2>
-    <div class="testi-list" id="testi-list"></div>
-  </section>
-
-  <section class="final-cta" aria-labelledby="final-h">
-    <h2 id="final-h">Have a project in mind?</h2>
-    <p>Tell me what you want to build. Message me on WhatsApp, or order directly on Fiverr.</p>
-    <div class="links">
-      <a class="box btn-primary" href="https://wa.me/923246683433?text=Hi%20Saad%2C%20I%20saw%20your%20portfolio%20and%20I%27d%20like%20to%20discuss%20a%20project%20%28app%20or%20website%29.%20Can%20we%20talk%3F" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Chat on WhatsApp</a>
-      <a class="box btn-secondary" href="https://www.fiverr.com/isaadrizvi/develop-islamic-mobile-app-ios-android" target="_blank" rel="noopener">Hire me on Fiverr</a>
+      <div class="view" role="group" aria-label="View">
+        <button data-view="grid" aria-pressed="false" aria-label="Grid view" title="Grid">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        </button>
+        <button data-view="list" aria-pressed="true" aria-label="List view" title="List">
+          <svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+        </button>
+      </div>
     </div>
-  </section>
+    <!-- ===== /TABS & VIEW SECTION ===== -->
 
-  <footer class="site-footer">&copy; 2026 Muhammad Saad Ahmad &middot; Flutter developer for Islamic apps</footer>
+    <section class="panel" id="apps" role="tabpanel">
+      <ul class="list" id="app-list"></ul>
+    </section>
+    <section class="panel" id="websites" role="tabpanel" hidden>
+      <ul class="list" id="site-list"></ul>
+    </section>
+    <section class="panel" id="resources" role="tabpanel" hidden>
+      <ul class="list" id="res-list"></ul>
+    </section>
 
-  <a class="float-wa" href="https://wa.me/923246683433?text=Hi%20Saad%2C%20I%20saw%20your%20portfolio%20and%20I%27d%20like%20to%20discuss%20a%20project%20%28app%20or%20website%29.%20Can%20we%20talk%3F" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+  </div> <!-- END MAIN CONTENT WRAPPER -->
 
+
+  <!-- ===== FOOTER (Contact Section) ===== -->
+  <footer class="site-footer" id="contact">
+    <img src="assets/profile.jpg" alt="Muhammad Saad Ahmad" class="footer-profile-img">
+    
+    <h2 class="footer-name">Muhammad Saad Ahmad</h2>
+    <p class="footer-subtitle">iOS/Android Flutter Mobile Apps - React Websites</p>
+    
+    <div class="footer-links">
+      <a class="footer-btn" href="https://wa.me/923246683433?text=Hi%20Saad%2C%20I%20saw%20your%20portfolio%20and%20I%27d%20like%20to%20discuss%20a%20project%20%28app%20or%20website%29.%20Can%20we%20talk%3F" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Say Hello
+      </a>
+      <a class="footer-btn" href="https://www.fiverr.com/isaadrizvi/develop-islamic-mobile-app-ios-android" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18"/></svg>
+        Hire Me, Fiverr
+      </a>
+      <a class="footer-btn" href="https://www.linkedin.com/in/msaadahmad358/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg>
+        Let's Connect
+      </a>
+      <a class="footer-btn" href="https://github.com/msaadahmad358" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        See My Code
+      </a>
+    </div>
+  </footer>
+  <!-- ===== /FOOTER ===== -->
+
+  <!-- ===== MODAL (ALERT SECTION) ===== -->
   <div class="overlay" id="overlay" hidden>
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
       <button class="close" id="m-close" aria-label="Close">&times;</button>
       <h2 id="m-title"></h2>
-      <div class="tags" id="m-tags"></div>
       <p class="avail" id="m-avail"></p>
+      <div class="tags" id="m-tags"></div>
       <div class="shots" id="m-shots"></div>
     </div>
   </div>
@@ -386,40 +634,6 @@
   <script src="websites.js"></script>
   <script src="resources.js"></script>
   <script src="testimonials.js"></script>
-  <script>
-  /* ---------- Stats line (counts come from apps.js / websites.js) ---------- */
-  (function () {
-    const apps = window.APPS || [], sites = window.WEBSITES || [];
-    const live = apps.filter(a => a.playStore || a.appStore).length;
-    const parts = [];
-    if (apps.length) parts.push(apps.length + (apps.length === 1 ? ' app' : ' apps') + ' built');
-    if (live) parts.push(live + ' live on the app stores');
-    if (sites.length) parts.push(sites.length + (sites.length === 1 ? ' website' : ' websites'));
-    const box = document.getElementById('stats');
-    if (parts.length) { box.textContent = parts.join('  \u00b7  '); box.hidden = false; }
-  })();
-
-  /* ---------- Testimonials (from testimonials.js; section stays hidden when empty) ---------- */
-  (function () {
-    const items = (window.TESTIMONIALS || []).filter(t => t && t.quote);
-    if (!items.length) return;
-    const list = document.getElementById('testi-list');
-    items.forEach(t => {
-      const fig = document.createElement('figure'); fig.className = 'testi';
-      const q = document.createElement('blockquote'); q.textContent = '\u201c' + t.quote + '\u201d';
-      const cap = document.createElement('figcaption');
-      cap.append(document.createTextNode([t.name, t.role].filter(Boolean).join(', ')));
-      if (t.source) {
-        cap.append(document.createTextNode(' \u00b7 '));
-        if (t.url) { const a = document.createElement('a'); a.href = t.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = t.source; cap.append(a); }
-        else cap.append(document.createTextNode(t.source));
-      }
-      fig.append(q, cap); list.append(fig);
-    });
-    document.getElementById('testimonials').hidden = false;
-  })();
-  </script>
-  
   <script>
   /* ---------- Tabs ---------- */
   const tabs = document.querySelectorAll('.tab');
@@ -468,10 +682,10 @@
     return found;
   }
 
-  /* ---------- Data: loaded from apps.js and websites.js ---------- */
+  /* ---------- Data ---------- */
   const KINDS = {
-    app:  { ratio: '993 / 1920', cardW: 'min(88px, 24vw)',   shotMin: '90px',  button: 'View app' },
-    site: { ratio: '16 / 9',     cardW: 'min(128px, 32vw)',  shotMin: '200px', button: 'View website' }
+    app:  { ratio: '993 / 1920', cardW: 'min(130px, 32vw)',   shotMin: '90px',  button: 'View App' },
+    site: { ratio: '16 / 9',     cardW: 'min(160px, 40vw)',  shotMin: '200px', button: 'View Website' }
   };
 
   const overlay = document.getElementById('overlay');
@@ -554,23 +768,34 @@
 
     const info = el('div', { className: 'info' });
     const title = el('h3', { textContent: item.name });
-    const desc = item.description ? el('p', { className: 'desc', textContent: item.description }) : null;
-    const chips = el('div', { className: 'chips' });
-    chips.append(...item.tags.map(t => el('span', { textContent: t })));
+    
+    const cardBottom = el('div', { className: 'card-bottom' });
     const btn = el('button', { className: 'view-btn', type: 'button', textContent: k.button });
     
-    // Look for website-url or url
     const webLink = item.links.find(l => l[0] === 'Website');
     if (kind === 'site' && webLink && webLink[1]) {
-        // If it has a URL, open it directly
         btn.addEventListener('click', () => window.open(webLink[1], '_blank', 'noopener'));
     } else {
-        // Otherwise, open the modal (to see screenshots/details)
         btn.addEventListener('click', () => openItem(item, k));
     }
 
-    info.append(...[title, desc, chips, btn].filter(Boolean));
+    let availText = null;
+    if (item.links && item.links.length > 0) {
+      availText = el('div', { className: 'availability' });
+      availText.append(document.createTextNode('Available on: '));
+      item.links.forEach(([label, url], i) => {
+        if (i > 0) availText.append(document.createTextNode(', '));
+        availText.append(el('a', { href: url, textContent: label, target: '_blank', rel: 'noopener' }));
+      });
+    }
 
+    cardBottom.append(btn);
+    if (availText) cardBottom.append(availText);
+
+    const chips = el('div', { className: 'chips' });
+    chips.append(...(item.tags || []).map(t => el('span', { textContent: t })));
+
+    info.append(title, chips, cardBottom);
     card.append(mediaWrapper, info);
     li.append(card);
     listFrag.append(li);
@@ -583,7 +808,6 @@
     const fragApps = document.createDocumentFragment();
     const fragSites = document.createDocumentFragment();
 
-    // 1. Process Apps from apps.js
     if (window.APPS) {
         window.APPS.forEach(a => {
             const basePath = 'assets/apps/' + String(a.id);
@@ -608,7 +832,6 @@
         });
     }
 
-    // 2. Process Websites from websites.js
     if (window.WEBSITES) {
         window.WEBSITES.forEach(a => {
             const basePath = 'assets/websites/' + String(a.id);
@@ -633,7 +856,6 @@
         });
     }
     
-    // 3. Append to DOM
     if (fragApps.childNodes.length > 0) listApps.append(fragApps);
     else listApps.innerHTML = '<li class="notice" style="border:none;justify-content:center;color:var(--muted);">No mobile apps added yet.</li>';
 
@@ -641,7 +863,6 @@
     else listSites.innerHTML = '<li class="notice" style="border:none;justify-content:center;color:var(--muted);">No websites added yet.</li>';
   }
   
-  // Initialize
   loadApps();
 
 
@@ -657,7 +878,7 @@
     s.setAttribute('viewBox', '0 0 24 24'); s.innerHTML = RES_ICONS[kind] || RES_ICONS.json; return s; };
 
 
-  /* ---------- Image-set resources (kind: "gallery") ---------- */
+  /* ---------- Image-set resources ---------- */
   const pad = (n, d) => String(n).padStart(d, '0');
   const getSize = url => new Promise(res => {
     const i = new Image();
@@ -782,18 +1003,22 @@
   /* ---------- Modal ---------- */
   async function openItem(item, k) {
     document.getElementById('m-title').textContent = item.name;
+    
+    // Tags
     document.getElementById('m-tags').replaceChildren(
       ...item.tags.map(t => el('span', { textContent: t }))
     );
 
+    // Availability
     const avail = document.getElementById('m-avail');
     avail.hidden = !item.links.length;
-    avail.replaceChildren(document.createTextNode('Available on:'));
+    avail.replaceChildren(document.createTextNode('Available on: '));
     item.links.forEach(([label, url], i) => {
-      if (i > 0) avail.append(document.createTextNode(' |'));
+      if (i > 0) avail.append(document.createTextNode(', '));
       avail.append(el('a', { href: url, textContent: label, target: '_blank', rel: 'noopener' }));
     });
 
+    // Screenshots
     const shots = document.getElementById('m-shots');
     shots.dataset.full = item.full ? '1' : '';
     shots.style.setProperty('--r', k.ratio);
@@ -822,5 +1047,30 @@
   overlay.addEventListener('click', e => { if (e.target === overlay) closeApp(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeApp(); });
 </script>
+
+  <!-- ---------- Nav behaviour ---------- -->
+  <script>
+  (function () {
+    const nav = document.querySelector('.site-nav');
+    const toggle = nav.querySelector('.nav-toggle');
+    const setOpen = open => {
+      nav.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open);
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+    toggle.addEventListener('click', () => setOpen(!nav.classList.contains('open')));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
+
+    nav.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', e => {
+      setOpen(false);
+      const tab = a.dataset.tab && document.querySelector('.tab[data-target="' + a.dataset.tab + '"]');
+      if (tab) { 
+        e.preventDefault(); 
+        tab.click(); 
+        document.querySelector('.tabs-header').scrollIntoView({ behavior: 'smooth' }); 
+      }
+    }));
+  })();
+  </script>
 </body>
 </html>
